@@ -15,21 +15,40 @@
       background-color: rgba(238, 238, 238, 0.25);
     }
 
+    section {
+      margin: 2em;
+    }
+
     iframe {
-      border: 1px solid red;
+      border-color: red;
       background-color: transparent;
+      width: 100%;
+    }
+
+    iframe.widget {
+      transition: height 1s ease;
+    }
+
+    iframe.widget {
+      box-sizing: content-box;
+      margin: 0 0 0 -9px;
+      border: 3px solid transparent;
+      padding: 6px;
     }
   </style>
 
 </head>
 <body>
 
-<h1>iframe-ios-poc</h1>
-<p>The purpose of this POC is to figure out some of the odd iframe behaviors on iOS (specifically iPhone). We need to
-  find a common strategy that can be implemented in widgets to allow our content to resize as expected.</p>
-<hr/>
+<section>
+  <h1>iframe-ios-poc</h1>
+  <p>The purpose of this POC is to figure out some of the odd iframe behaviors on iOS (specifically iPhone). We need to
+    find a common strategy that can be implemented in widgets to allow our content to resize as expected.</p>
+</section>
 
-<iframe src="iframe.html"/>
+<section>
+  <iframe class="widget widget-iframe-ios-poc" src="iframe.html"/>
+</section>
 
 </body>
 </html>
