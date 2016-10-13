@@ -120,8 +120,7 @@
     }, 250);
   });
 
-  setTimeout(function () {
-//  setInterval(function () {
+  function toggleTheBitItem() {
     var el = theBody,
         className = 'ready';
 
@@ -138,7 +137,12 @@
 
       el.className = classes.join(' ');
     }
-  }, 4000);
+  }
+
+//  setTimeout(function () {
+//  setInterval(function () {
+    toggleTheBitItem();
+//  }, 4000);
 
   window.addEventListener('message', function (evt) {
     var payload = evt.data;
