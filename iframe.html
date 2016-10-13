@@ -95,9 +95,10 @@
       widgetWrapper = document.getElementById('widgetWrapper'),
       theOutput = document.getElementById('theOutput');
 
-  function toggleTheBigItem() {
-    var el = theBody,
-        className = 'ready';
+  function toggleClass(className) {
+    var el = theBody;
+
+    if (!className) className = 'ready';
 
     if (el.classList) {
       el.classList.toggle(className);
@@ -116,7 +117,7 @@
 
   //  setTimeout(function () {
   //  setInterval(function () {
-  toggleTheBigItem();
+  toggleClass();
   //  }, 4000);
 
 
@@ -135,6 +136,11 @@
       'method': 'set',
       'payload': {"width": "100%", "height": bodyDims.height + "px"}
     }, '*');
+
+    // the iframe height animation is 1s in duration ... so lets offset the loading indicator
+    setTimeout(function () {
+      toggleClass('loaded');
+    }, 1000);
   }, 2000);
 
   window.addEventListener('message', function (evt) {
