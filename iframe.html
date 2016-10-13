@@ -20,7 +20,6 @@
 
     body {
       overflow: hidden;
-      max-width: 300px;
       background-color: #e39649;
       transition: background-color 1s ease;
     }
@@ -33,6 +32,11 @@
       padding: 1em;
       background-color: #212121;
       color: #8ae300;
+    }
+
+    #widgetWrapper {
+      overflow: hidden;
+      max-width: 100%;
     }
 
     .theBigItem {
@@ -59,18 +63,23 @@
 </head>
 <body class="theBody">
 
-<section>
-  <h1>iframe-ios-poc | content</h1>
-  <p>Iframe is set to 100% width, but we are setting a max-width on the body inside the iframe. Also on the body inside the iframe we are overflow: hidden as well.</p>
-</section>
+<div id="widgetWrapper">
 
-<section>
-  <pre id="theOutput"></pre>
-</section>
+  <section>
+    <h1>iframe-ios-poc | content</h1>
+    <p>Iframe is set to 100% width, but we are setting a max-width on the body inside the iframe. Also on the body
+      inside the iframe we are overflow: hidden as well.</p>
+  </section>
 
-<div class="theBigItem">
-  <h3>The Big Item</h3>
-  <p>The parent div of this text is purposely wider than what we think the iphone viewport might be.</p>
+  <section>
+    <pre id="theOutput"></pre>
+  </section>
+
+  <div class="theBigItem">
+    <h3>The Big Item</h3>
+    <p>The parent div of this text is purposely wider than what we think the iphone viewport might be.</p>
+  </div>
+
 </div>
 
 <script type="text/javascript">
@@ -111,7 +120,8 @@
     }, 250);
   });
 
-  setInterval(function () {
+  setTimeout(function () {
+//  setInterval(function () {
     var el = theBody,
         className = 'ready';
 
