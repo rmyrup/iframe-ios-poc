@@ -75,7 +75,9 @@
   }, false);
 
   setTimeout(function(){
-    theIframe.src = 'iframe.html';
+    var theRandom = Math.random().toString().substr(2);
+    console.log(theRandom);
+    theIframe.src = 'iframe.html?z=' + theRandom;
   }, 250);
 </script>
 
