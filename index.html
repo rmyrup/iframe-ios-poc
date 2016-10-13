@@ -46,9 +46,26 @@
     find a common strategy that can be implemented in widgets to allow our content to resize as expected.</p>
 </section>
 
-<section>
-  <iframe class="widget widget-iframe-ios-poc" src="iframe.html"/>
-</section>
+<iframe id="theIframe" class="widget widget-iframe-ios-poc"></iframe>
+
+<script type="text/javascript">
+  var theIframe = document.getElementById('theIframe');
+
+  window.addEventListener('message', function (evt) {
+    var theData = evt.data;
+    console.log('parent received message | type: ' + theData.type);
+    console.dir(theData.payload);
+
+    if(theData.type == 'size') {
+      if(theData.payload.height) theIframe.style.height = theData.payload.height;
+      if(theData.payload.width) theIframe.style.width = theData.payload.width;
+    }
+  }, false);
+
+  setTimeout(function(){
+    theIframe.src = 'iframe.html';
+  }, 1000);
+</script>
 
 </body>
 </html>

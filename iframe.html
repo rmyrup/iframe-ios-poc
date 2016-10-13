@@ -12,20 +12,74 @@
     }
 
     body {
+      overflow: hidden;
       background-color: rgba(238, 55, 21, 0.25);
     }
 
     section {
       margin: 2em;
     }
+
+    pre {
+      padding: 1em;
+      background-color: #212121;
+      color: #8ae300;
+    }
   </style>
 </head>
 <body>
 
-<h1>iframe-ios-poc | content</h1>
-<p>This page is the content of the iframe in the index.html file.</p>
-<hr/>
+<section>
+  <h1>iframe-ios-poc | content</h1>
+  <p>This page is the content of the iframe in the index.html file.</p>
+</section>
 
+<section>
+  <pre id="theOutput"></pre>
+</section>
+
+<script type="text/javascript">
+  function ready(fn) {
+    if (document.readyState != 'loading') {
+      fn();
+    } else {
+      document.addEventListener('DOMContentLoaded', fn);
+    }
+  }
+
+  ready(function () {
+    var theOutput = document.getElementById('theOutput');
+
+    theOutput.textContent = 'blah blah';
+    theOutput.textContent += "\n\n";
+    theOutput.textContent += "\tHELLO?";
+
+    setTimeout(function(){
+      if (window.parent) {
+        // Send config JSON to parent (Habitat) for saving
+        window.parent.postMessage({
+          'type': 'size',
+          'method': 'set',
+          'payload': {"width": "100%", "height": "600px"}
+        }, '*');
+      }
+    }, 1000);
+  });
+
+  window.addEventListener('message', function(evt){
+    var payload = evt.data;
+    if (payload.type === 'data'){
+      console.log('postMessage type data');
+      console.dir(payload);
+    } else if (payload.type === 'dataglobal'){
+      console.log('postMessage type dataglobal');
+      console.dir(payload);
+    } else if (payload.type == 'orientationchange'){
+      console.log('postMessage type orientationchange');
+      console.dir(payload);
+    }
+  }, false);
+</script>
 
 </body>
 </html>
