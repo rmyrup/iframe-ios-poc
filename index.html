@@ -32,7 +32,8 @@
     iframe {
       border-color: red;
       background-color: transparent;
-      width: 100%;
+      /*width: 100%;*/
+      width: 320px;
       height: 100px;
     }
 
@@ -70,7 +71,7 @@
 
     if(theData.type == 'size') {
       if(theData.payload.height) theIframe.style.height = theData.payload.height;
-      if(theData.payload.width) theIframe.style.width = theData.payload.width;
+//      if(theData.payload.width) theIframe.style.width = theData.payload.width;
     }
   }, false);
 
