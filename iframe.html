@@ -106,15 +106,30 @@
         window.parent.postMessage({
           'type': 'size',
           'method': 'set',
-          'payload': {"width": "100%", "height": "600px"}
+          'payload': {"width": "100%", "height": "400px"}
         }, '*');
       }
     }, 250);
   });
 
-  setTimeout(function () {
-    (theBody.classList) ? theBody.classList.add('ready') : theBody.className += ' ready';
-  }, 5000);
+  setInterval(function () {
+    var el = theBody,
+        className = 'ready';
+
+    if (el.classList) {
+      el.classList.toggle(className);
+    } else {
+      var classes = el.className.split(' ');
+      var existingIndex = classes.indexOf(className);
+
+      if (existingIndex >= 0)
+        classes.splice(existingIndex, 1);
+      else
+        classes.push(className);
+
+      el.className = classes.join(' ');
+    }
+  }, 4000);
 
   window.addEventListener('message', function (evt) {
     var payload = evt.data;
