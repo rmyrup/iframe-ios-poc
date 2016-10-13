@@ -53,6 +53,7 @@
 
 <section>
   <h1>iframe-ios-poc</h1>
+  <button onclick="window.location.href='index.html?z=' + Math.random().toString().substr(2);">REFRESH</button>
   <p>Iframe is set to 100% width, but we are setting a max-width on the body inside the iframe. Also on the body inside the iframe we are overflow: hidden as well.</p>
 </section>
 
@@ -79,7 +80,6 @@
 
   setTimeout(function () {
     var theRandom = Math.random().toString().substr(2);
-    console.log(theRandom);
     theIframe.src = 'iframe.html?z=' + theRandom;
   }, 250);
 </script>
