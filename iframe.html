@@ -82,43 +82,10 @@
 
 <script type="text/javascript">
   var theBody = document.getElementsByClassName('theBody')[0],
+      widgetWrapper = document.getElementById('widgetWrapper'),
       theOutput = document.getElementById('theOutput');
 
-  function ready(fn) {
-    if (document.readyState != 'loading') {
-      fn();
-    } else {
-      document.addEventListener('DOMContentLoaded', fn);
-    }
-  }
-
-  ready(function () {
-
-    setTimeout(function () {
-      theOutput.textContent = 'blah blah';
-
-      setTimeout(function () {
-        theOutput.textContent += "\n\n";
-
-        setTimeout(function () {
-          theOutput.textContent += "\tHELLO?";
-        }, 750);
-      }, 750);
-    }, 1000);
-
-    setTimeout(function () {
-      if (window.parent) {
-        // Send config JSON to parent (Habitat) for saving
-        window.parent.postMessage({
-          'type': 'size',
-          'method': 'set',
-          'payload': {"width": "100%", "height": "370px"}
-        }, '*');
-      }
-    }, 250);
-  });
-
-  function toggleTheBitItem() {
+  function toggleTheBigItem() {
     var el = theBody,
         className = 'ready';
 
@@ -137,10 +104,28 @@
     }
   }
 
-//  setTimeout(function () {
-//  setInterval(function () {
-    toggleTheBitItem();
-//  }, 4000);
+  //  setTimeout(function () {
+  //  setInterval(function () {
+  toggleTheBigItem();
+  //  }, 4000);
+
+
+  setTimeout(function () {
+    var theBody = document.getElementsByClassName('theBody')[0],
+        bodyDims = theBody.getBoundingClientRect();
+
+    theOutput.textContent = "body dimensions:\n";
+    theOutput.textContent += "  width = " + bodyDims.width + "\n";
+    theOutput.textContent += "  height = " + bodyDims.height + "\n";
+
+    widgetWrapper.style.maxWidth = bodyDims.width + "px";
+
+    window.parent.postMessage({
+      'type': 'size',
+      'method': 'set',
+      'payload': {"width": "100%", "height": bodyDims.height + "px"}
+    }, '*');
+  }, 2000);
 
   window.addEventListener('message', function (evt) {
     var payload = evt.data;
