@@ -1,0 +1,107 @@
+/* Style the cover to look like a modal and block interaction, use CSS animation to hide this element */
+/* NOTE: this method works from one direction only due to the nature of animating the visibility property */
+.theLoader {
+    z-index: 1000000;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+
+    /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#f9f9f9+0,efefef+100;Wax+3D+%233 */
+    background: #f9f9f9;
+    background: linear-gradient(to bottom, #f9f9f9 0%, #efefef 100%);
+
+    opacity: 1.0;
+    visibility: visible;
+
+    /* Offset the visibility transition to happen after the opacity */
+    transition: opacity 0.5s ease, visibility 0s ease 0.5s;
+}
+
+.theLoader:hover {
+    /* Adds a little UI effect to show that content is not interactive yet */
+    cursor: wait;
+}
+
+body.loaded .theLoader {
+    /* Animating the opacity adds pretty UI effect */
+    opacity: 0;
+    /* Setting no visibility "opens" the covered item to interaction and focus (basically same as display:none) */
+    visibility: hidden;
+}
+
+/*  http://cssload.net/en/horizontal-bars  */
+#theLoader--wrapper {
+    position: relative;
+    top: 50%;
+    text-align: center;
+    font-family: 'Proxima Nova', sans-serif;
+}
+
+#theLoader--text {
+    margin-top: -1.5em;
+    margin-bottom: 1em;
+    color: #999999;
+}
+
+#theLoader--bar {
+    width: 150px;
+    height: 1pt;
+    overflow: hidden;
+    background-color: rgb(204, 204, 204);
+    margin: auto;
+}
+
+.theLoader--bar-inner {
+    margin-top: 0;
+    margin-left: -150px;
+    background-color: rgb(226, 26, 36);
+    animation-name: animate--bar-inner;
+    -o-animation-name: animate--bar-inner;
+    -ms-animation-name: animate--bar-inner;
+    -webkit-animation-name: animate--bar-inner;
+    -moz-animation-name: animate--bar-inner;
+    animation-duration: 3s;
+    -o-animation-duration: 3s;
+    -ms-animation-duration: 3s;
+    -webkit-animation-duration: 3s;
+    -moz-animation-duration: 3s;
+    animation-iteration-count: infinite;
+    -o-animation-iteration-count: infinite;
+    -ms-animation-iteration-count: infinite;
+    -webkit-animation-iteration-count: infinite;
+    -moz-animation-iteration-count: infinite;
+    animation-timing-function: linear;
+    -o-animation-timing-function: linear;
+    -ms-animation-timing-function: linear;
+    -webkit-animation-timing-function: linear;
+    -moz-animation-timing-function: linear;
+    width: 50%;
+    height: 100%;
+}
+
+@keyframes animate--bar-inner {
+    0% {  margin-left: -100%;  }
+    100% {  margin-left: 100%;  }
+}
+
+@-o-keyframes animate--bar-inner {
+    0% {  margin-left: -100%;  }
+    100% {  margin-left: 100%;  }
+}
+
+@-ms-keyframes animate--bar-inner {
+    0% {  margin-left: -100%;  }
+    100% {  margin-left: 100%;  }
+}
+
+@-webkit-keyframes animate--bar-inner {
+    0% {  margin-left: -100%;  }
+    100% {  margin-left: 100%;  }
+}
+
+@-moz-keyframes animate--bar-inner {
+    0% {  margin-left: -100%;  }
+    100% {  margin-left: 100%;  }
+}
