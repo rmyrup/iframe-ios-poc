@@ -51,12 +51,16 @@
 <section>
   <h1>iframe-ios-poc</h1>
   <button onclick="window.location.href='index.html?z=' + Math.random().toString().substr(2);">REFRESH</button>
-  <p>Iframe is set to 100% width, but we are setting a max-width on the body inside the iframe. Also on the body inside the iframe we are overflow: hidden as well.</p>
 </section>
 
 <iframe id="theIframe" class="widget widget-iframe-ios-poc"></iframe>
 
 <section>
+  <p>Iframe is set to 100% width. Iframe content body is set to overflow hidden, and content inside the body is wrapped
+    in a div. This wrapper div has some overflow settings, but the secret ingredient is setting a max-width.</p>
+  <p>It seems with this combination of CSS we are able to constrain the widget content, but also demonstrate that it can
+    be wider than the viewport and not cause the wrapping iframe to expand. By the same methods we could reliably
+    perform transform scaling to the content.</p>
   <p>The purpose of this POC is to figure out some of the odd iframe behaviors on iOS (specifically iPhone). We need to
     find a common strategy that can be implemented in widgets to allow our content to resize as expected.</p>
 </section>
