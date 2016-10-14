@@ -89,6 +89,10 @@
     <p>The parent div of this text is purposely wider than what we think the iphone viewport might be.</p>
   </div>
 
+  <section>
+    <p>The magenta colored item above has a width that is definitely wider than the mobile viewport.</p>
+  </section>
+
 </div>
 
 <script type="text/javascript">
@@ -99,7 +103,7 @@
   function toggleClass(className) {
     var el = theBody;
 
-    if (!className) className = 'ready';
+    if (!className) return false;
 
     if (el.classList) {
       el.classList.toggle(className);
@@ -116,33 +120,52 @@
     }
   }
 
-  //  setTimeout(function () {
-  //  setInterval(function () {
-  toggleClass();
-  //  }, 4000);
+  function getDocHeight() {
+    var D = document;
+    return Math.max(
+        Math.max(D.body.scrollHeight, D.documentElement.scrollHeight),
+        Math.max(D.body.offsetHeight, D.documentElement.offsetHeight),
+        Math.max(D.body.clientHeight, D.documentElement.clientHeight)
+    );
+  }
 
+  function debounce(func, wait, immediate) {
+    var timeout;
+    return function () {
+      var context = this, args = arguments;
+      var later = function () {
+        timeout = null;
+        if (!immediate) func.apply(context, args);
+      };
+      var callNow = immediate && !timeout;
+      clearTimeout(timeout);
+      timeout = setTimeout(later, wait);
+      if (callNow) func.apply(context, args);
+    };
+  }
 
-  setTimeout(function () {
+  function askIframeResize() {
     var theBody = document.getElementsByClassName('theBody')[0],
+        bodyHeight = getDocHeight(),
         bodyDims = theBody.getBoundingClientRect();
 
-    theOutput.textContent = "body dimensions:\n";
-    theOutput.textContent += "  width = " + bodyDims.width + "\n";
-    theOutput.textContent += "  height = " + bodyDims.height + "\n";
+    theOutput.textContent = "body height = " + bodyHeight + "\n";
 
     widgetWrapper.style.maxWidth = bodyDims.width + "px";
 
     window.parent.postMessage({
       'type': 'size',
       'method': 'set',
-      'payload': {"width": "100%", "height": bodyDims.height + "px"}
+      'payload': {"width": "100%", "height": bodyHeight + "px"}
     }, '*');
+  }
 
-    // the iframe height animation is 1s in duration ... so lets offset the loading indicator
-    setTimeout(function () {
-      toggleClass('loaded');
-    }, 1000);
-  }, 2000);
+  var debouncedResize = debounce(function () {
+    console.log('size changed');
+    askIframeResize();
+  }, 250);
+
+  window.addEventListener('resize', debouncedResize);
 
   window.addEventListener('message', function (evt) {
     var payload = evt.data;
@@ -157,6 +180,18 @@
       console.dir(payload);
     }
   }, false);
+
+  // set the ready class on the body
+  toggleClass('ready');
+
+  // an initial resize
+  askIframeResize();
+
+  // offset the loaded class transition from the ready class transition
+  setTimeout(function () {
+    toggleClass('loaded');
+  }, 1000);
+
 </script>
 
 </body>
