@@ -193,6 +193,9 @@
     setTimeout(function () {
       toggleClass('loaded');
     }, 1000);
+
+    // trying to supress an annoying thing in ios
+    window.history.replaceState(null, null, "#blahblah");
   }, 350);
 
 </script>
