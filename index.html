@@ -51,6 +51,7 @@
 <section>
   <h1>iframe-ios-poc</h1>
   <button onclick="window.location.href='index.html?z=' + Math.random().toString().substr(2);">REFRESH</button>
+  <span id="theHeight"></span>
 </section>
 
 <iframe id="theIframe" class="widget widget-iframe-ios-poc"></iframe>
@@ -74,7 +75,12 @@
 //    console.dir(theData.payload);
 
     if (theData.type == 'size') {
-      if (theData.payload.height) theIframe.style.height = theData.payload.height;
+      if (theData.payload.height)
+      {
+        var theHeight = document.getElementById('theHeight');
+        theHeight.textContent = theData.payload.height;
+        theIframe.style.height = theData.payload.height;
+      }
 //      if(theData.payload.width) theIframe.style.width = theData.payload.width;
     }
   }, false);
