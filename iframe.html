@@ -206,6 +206,9 @@
     // only report a height if it has changed
     if (lastReportedHeight == widgetContentDims.height) return false;
 
+    // to address iframe issues in ios safari we need to set the height on the body as well
+    theBody.style.height = widgetContentDims.height;
+
     // set this as the last reported height
     lastReportedHeight = widgetContentDims.height;
 
@@ -213,7 +216,7 @@
     window.parent.postMessage({
       'type': 'size',
       'method': 'set',
-      'payload': {"width": "100%", "height": Math.ceil(widgetContentDims.height) + "px"}
+      'payload': {"width": "100%", "height": widgetContentDims.height + "px"}
     }, '*');
   }
 
