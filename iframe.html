@@ -30,15 +30,28 @@
     }
 
     pre {
-      padding: 1em;
+      margin: 0;
+      padding: 0.5em 1em;
       background-color: #212121;
       color: #8ae300;
+    }
+
+    pre:first-child {
+      padding-top: 1em;
+    }
+
+    pre:last-child {
+      margin-bottom: 1em;
+      padding-bottom: 1em;
     }
 
     #widgetWrapper {
       overflow-y: hidden;
       overflow-x: auto;
       max-width: 300px;
+    }
+    #widgetContent {
+      position: absolute;
     }
 
     .theBigItem {
@@ -75,30 +88,37 @@
 </div>
 
 <div id="widgetWrapper">
+  <div id="widgetContent">
+    <section>
+      <h1>iframe-ios-poc | content</h1>
+    </section>
 
-  <section>
-    <h1>iframe-ios-poc | content</h1>
-  </section>
+    <section>
+      <pre id="theOutput--bh"></pre>
+      <pre id="theOutput--bw"></pre>
+      <pre id="theOutput--www"></pre>
+      <pre id="theOutput--wcw"></pre>
+    </section>
 
-  <section>
-    <pre id="theOutput"></pre>
-  </section>
+    <div class="theBigItem">
+      <h3>The Big Item</h3>
+      <p>The parent div of this text is purposely wider than what we think the iphone viewport might be.</p>
+    </div>
 
-  <div class="theBigItem">
-    <h3>The Big Item</h3>
-    <p>The parent div of this text is purposely wider than what we think the iphone viewport might be.</p>
+    <section>
+      <p>The magenta colored item above has a width that is definitely wider than the mobile viewport.</p>
+    </section>
   </div>
-
-  <section>
-    <p>The magenta colored item above has a width that is definitely wider than the mobile viewport.</p>
-  </section>
-
 </div>
 
 <script type="text/javascript">
   var theBody = document.getElementsByClassName('theBody')[0],
       widgetWrapper = document.getElementById('widgetWrapper'),
-      theOutput = document.getElementById('theOutput');
+      widgetContent = document.getElementById('widgetContent'),
+      theOutput_bh = document.getElementById('theOutput--bh'),
+      theOutput_bw = document.getElementById('theOutput--bw'),
+      theOutput_www = document.getElementById('theOutput--www'),
+      theOutput_wcw = document.getElementById('theOutput--wcw');
 
   function toggleClass(className) {
     var el = theBody;
@@ -145,11 +165,11 @@
   }
 
   function askIframeResize() {
-    var theBody = document.getElementsByClassName('theBody')[0],
-        bodyHeight = getDocHeight(),
+    var bodyHeight = getDocHeight(),
         bodyDims = theBody.getBoundingClientRect();
 
-    theOutput.textContent = "body height = " + bodyHeight + "\n";
+    theOutput_bh.textContent = "body height = " + bodyHeight + "\n";
+    theOutput_bw.textContent = "body width = " + bodyDims.width + "\n";
 
     widgetWrapper.style.maxWidth = bodyDims.width + "px";
 
@@ -194,6 +214,18 @@
       toggleClass('loaded');
     }, 1000);
   }, 350);
+
+  setTimeout(function () {
+    var scaleVal = 1,
+        bodyDims = theBody.getBoundingClientRect(),
+        widgetWrapperDims = widgetWrapper.getBoundingClientRect(),
+        widgetContentDims = widgetContent.getBoundingClientRect();
+
+    theOutput_www.textContent = "wrapper width = " + widgetWrapperDims.width + "\n";
+    theOutput_wcw.textContent = "content width = " + widgetContentDims.width + "\n";
+
+    style.transform = 'scale(' + scaleVal + ')';
+  }, 1700);
 
 </script>
 
