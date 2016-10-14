@@ -213,7 +213,7 @@
     window.parent.postMessage({
       'type': 'size',
       'method': 'set',
-      'payload': {"width": "100%", "height": widgetContentDims.height + "px"}
+      'payload': {"width": "100%", "height": Math.ceil(widgetContentDims.height) + "px"}
     }, '*');
   }
 
