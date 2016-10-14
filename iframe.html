@@ -207,7 +207,7 @@
     if (lastReportedHeight == widgetContentDims.height) return false;
 
     // to address iframe issues in ios safari we need to set the height on the body as well
-    theBody.style.height = widgetContentDims.height;
+    widgetWrapper.style.height = widgetContentDims.height + "px";
 
     // set this as the last reported height
     lastReportedHeight = widgetContentDims.height;
