@@ -181,16 +181,19 @@
     }
   }, false);
 
-  // set the ready class on the body
-  toggleClass('ready');
-
-  // an initial resize
-  askIframeResize();
-
-  // offset the loaded class transition from the ready class transition
+  // a small time offset for visual appeal
   setTimeout(function () {
-    toggleClass('loaded');
-  }, 1000);
+    // set the ready class on the body
+    toggleClass('ready');
+
+    // an initial resize
+    askIframeResize();
+
+    // offset the loaded class transition from the ready class transition
+    setTimeout(function () {
+      toggleClass('loaded');
+    }, 1000);
+  }, 350);
 
 </script>
 
