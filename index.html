@@ -59,13 +59,16 @@
 <iframe id="theIframe" class="widget widget-iframe-ios-poc"></iframe>
 
 <section>
+  <p>The purpose of this POC is to figure out some of the odd iframe behaviors on iOS (specifically iPhone). We need to
+    find a common strategy that can be implemented in widgets to allow our content to resize as expected.</p>
+  <p>It is now very clear that in iOS Safari the iframe will expand in both width and height to match ANY content the
+    frame is displaying. This means that the widgets need to not only determine the viewport width in advance, the also
+    need to constrain their height for resizing.</p>
   <p>Iframe is set to 100% width. Iframe content body is set to overflow hidden, and content inside the body is wrapped
     in a div. This wrapper div has some overflow settings, but the secret ingredient is setting a max-width.</p>
   <p>It seems with this combination of CSS we are able to constrain the widget content, but also demonstrate that it can
     be wider than the viewport and not cause the wrapping iframe to expand. By the same methods we could reliably
     perform transform scaling to the content.</p>
-  <p>The purpose of this POC is to figure out some of the odd iframe behaviors on iOS (specifically iPhone). We need to
-    find a common strategy that can be implemented in widgets to allow our content to resize as expected.</p>
 </section>
 
 <script type="text/javascript">
@@ -75,8 +78,7 @@
     var theData = evt.data;
 
     if (theData.type == 'size') {
-      if (theData.payload.height)
-      {
+      if (theData.payload.height) {
         var theHeight = document.getElementById('theHeight');
         theHeight.textContent = theData.payload.height;
         theIframe.style.height = theData.payload.height;
