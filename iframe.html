@@ -134,7 +134,8 @@
 </div>
 
 <script type="text/javascript">
-  var theBody = document.getElementsByClassName('theBody')[0],
+  var lastReportedHeight = null,
+      theBody = document.getElementsByClassName('theBody')[0],
       bodyDims = theBody.getBoundingClientRect(),
       widgetWrapper = document.getElementById('widgetWrapper'),
       widgetContent = document.getElementById('widgetContent'),
@@ -202,8 +203,13 @@
     theOutput_www2.textContent = "wrapper width (scroll width) = " + widgetWrapper.scrollWidth + "\n";
     theOutput_wcw.textContent = "content height = " + widgetContentDims.height + "\n";
 
-    console.log(widgetContentDims.height);
+    // only report a height if it has changed
+    if (lastReportedHeight == widgetContentDims.height) return false;
 
+    // set this as the last reported height
+    lastReportedHeight = widgetContentDims.height;
+
+    // report the height to the iframe
     window.parent.postMessage({
       'type': 'size',
       'method': 'set',
@@ -216,10 +222,28 @@
         scaleVal = bodyDims.width / widgetWrapper.scrollWidth,
         scaleCur = widgetContent.style.transform;
 
-    console.log(bodyDims.width + "/" + widgetWrapper.scrollWidth + " = " + scaleVal);
+    // IMPORTANT: check if there IS a scale currently
+    if (scaleCur) {
+      // figure out the value of the scale factor
+      var scaleCurFactor = scaleCur.replace(/scale\(([0-9].?[0-9]*)\)/, "$1");
+
+      // recalculate the new scale, taking into account an existing scale
+      scaleVal = bodyDims.width / (widgetWrapper.scrollWidth / scaleCurFactor);
+    }
+
+    // string out the new scale
+    var scaleNew = 'scale(' + scaleVal + ')';
+
+    // stop if we aren't changing scale
+    if (scaleNew == scaleCur) {
+      // resize iframe to fit us
+      askIframeResize();
+
+      return false;
+    }
 
     // set the transform scale
-    widgetContent.style.transform = 'scale(' + scaleVal + ')';
+    widgetContent.style.transform = scaleNew;
 
     var widgetContentDims = widgetContent.getBoundingClientRect();
 
@@ -232,25 +256,10 @@
   }
 
   var debouncedResize = debounce(function () {
-    console.log('size changed');
     scaleWidgetContent();
-  }, 400);
+  }, 250);
 
-  //window.addEventListener('resize', debouncedResize);
-
-  window.addEventListener('message', function (evt) {
-    var payload = evt.data;
-    if (payload.type === 'data') {
-      console.log('postMessage type data');
-      console.dir(payload);
-    } else if (payload.type === 'dataglobal') {
-      console.log('postMessage type dataglobal');
-      console.dir(payload);
-    } else if (payload.type == 'orientationchange') {
-      console.log('postMessage type orientationchange');
-      console.dir(payload);
-    }
-  }, false);
+  window.addEventListener('resize', debouncedResize);
 
   // a small time offset for visual appeal
   setTimeout(function () {
@@ -258,18 +267,13 @@
     toggleClass('ready');
 
     // an initial resize
-    askIframeResize();
+    scaleWidgetContent();
 
     // offset the loaded class transition from the ready class transition
     setTimeout(function () {
       //toggleClass('loaded');
     }, 1000);
   }, 350);
-
-  setTimeout(function () {
-//    scaleWidgetContent();
-  }, 5000);
-
 </script>
 
 </body>
