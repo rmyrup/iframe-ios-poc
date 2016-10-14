@@ -70,6 +70,7 @@
 
     #widgetContent {
       float: left;
+      transform-origin: 0% 0%;
     }
 
     .theBigItem {
@@ -211,27 +212,31 @@
   }
 
   function scaleWidgetContent() {
-    var bodyDims = theBody.getBoundingClientRect(),
-        widgetWrapperDims = widgetWrapper.getBoundingClientRect(),
-        widgetContentDims = widgetContent.getBoundingClientRect(),
-        scaleVal = bodyDims.width / widgetWrapper.scrollWidth;
+    var widgetWrapperDims = widgetWrapper.getBoundingClientRect(),
+        scaleVal = bodyDims.width / widgetWrapper.scrollWidth,
+        scaleCur = widgetContent.style.transform;
+
+    console.log(bodyDims.width + "/" + widgetWrapper.scrollWidth + " = " + scaleVal);
+
+    // set the transform scale
+    widgetContent.style.transform = 'scale(' + scaleVal + ')';
+
+    var widgetContentDims = widgetContent.getBoundingClientRect();
 
     theOutput_www1.textContent = "wrapper width (bounding rect) = " + widgetWrapperDims.width + "\n";
     theOutput_www2.textContent = "wrapper width (scroll width) = " + widgetWrapper.scrollWidth + "\n";
     theOutput_wcw.textContent = "content height = " + widgetContentDims.height + "\n";
 
-    widgetContent.style.transform = 'scale(' + scaleVal + ')';
-    widgetContent.style.transformOrigin = "0% 0%";
-
+    // resize iframe to fit us
     askIframeResize();
   }
 
   var debouncedResize = debounce(function () {
     console.log('size changed');
-    askIframeResize();
-  }, 250);
+    scaleWidgetContent();
+  }, 400);
 
-  window.addEventListener('resize', debouncedResize);
+  //window.addEventListener('resize', debouncedResize);
 
   window.addEventListener('message', function (evt) {
     var payload = evt.data;
@@ -262,7 +267,7 @@
   }, 350);
 
   setTimeout(function () {
-    scaleWidgetContent();
+//    scaleWidgetContent();
   }, 5000);
 
 </script>
