@@ -13,20 +13,34 @@
 
   <link href="css/loading.css" rel="stylesheet"/>
   <style type="text/css">
-    body, html {
+    * {
+      box-sizing: border-box;
       margin: 0;
       padding: 0;
-      font-size: 12px;
+    }
+
+    .mhe-theme-namespace * {
+      font-family: 'ProximaNova', sans-serif;
     }
 
     body {
       overflow: hidden;
       background-color: #e39649;
       transition: background-color 1s ease;
+      font-size: 14px;
+    }
+
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 0;
+      margin-bottom: 1em;
     }
 
     section {
       margin: 2em;
+    }
+
+    p {
+      line-height: normal;
     }
 
     pre {
@@ -46,12 +60,13 @@
     }
 
     #widgetWrapper {
-      overflow-y: hidden;
+      /*overflow: hidden;*/
       overflow-x: auto;
-      max-width: 300px;
+      overflow-y: hidden;
     }
 
     #widgetContent {
+      float: left;
     }
 
     .theBigItem {
@@ -90,7 +105,9 @@
 <div id="widgetWrapper">
   <div id="widgetContent">
     <section>
-      <h1>iframe-ios-poc | content</h1>
+      <h1>iframe-ios-poc |
+        <button onclick="scaleWidgetContent()">SCALE</button>
+      </h1>
     </section>
 
     <section>
@@ -114,6 +131,7 @@
 
 <script type="text/javascript">
   var theBody = document.getElementsByClassName('theBody')[0],
+      bodyDims = theBody.getBoundingClientRect(),
       widgetWrapper = document.getElementById('widgetWrapper'),
       widgetContent = document.getElementById('widgetContent'),
       theOutput_bh = document.getElementById('theOutput--bh'),
@@ -121,6 +139,9 @@
       theOutput_www1 = document.getElementById('theOutput--www1'),
       theOutput_www2 = document.getElementById('theOutput--www2'),
       theOutput_wcw = document.getElementById('theOutput--wcw');
+
+  // this constrains the body so that in safari ios it does not expand the iframe
+  widgetWrapper.style.maxWidth = bodyDims.width + "px";
 
   function toggleClass(className) {
     var el = theBody;
@@ -177,9 +198,6 @@
     theOutput_www2.textContent = "wrapper width (scroll width) = " + widgetWrapper.scrollWidth + "\n";
     theOutput_wcw.textContent = "content height = " + widgetContentDims.height + "\n";
 
-    // this constrains the body so that in safari ios it does not expand the iframe
-    widgetWrapper.style.maxWidth = bodyDims.width + "px";
-
     console.log(widgetContentDims.height);
 
     window.parent.postMessage({
@@ -187,6 +205,22 @@
       'method': 'set',
       'payload': {"width": "100%", "height": widgetContentDims.height + "px"}
     }, '*');
+  }
+
+  function scaleWidgetContent() {
+    var bodyDims = theBody.getBoundingClientRect(),
+        widgetWrapperDims = widgetWrapper.getBoundingClientRect(),
+        widgetContentDims = widgetContent.getBoundingClientRect(),
+        scaleVal = bodyDims.width / widgetWrapper.scrollWidth;
+
+    theOutput_www1.textContent = "wrapper width (bounding rect) = " + widgetWrapperDims.width + "\n";
+    theOutput_www2.textContent = "wrapper width (scroll width) = " + widgetWrapper.scrollWidth + "\n";
+    theOutput_wcw.textContent = "content height = " + widgetContentDims.height + "\n";
+
+    widgetContent.style.transform = 'scale(' + scaleVal + ')';
+    widgetContent.style.transformOrigin = "0% 0%";
+
+    askIframeResize();
   }
 
   var debouncedResize = debounce(function () {
@@ -225,20 +259,8 @@
   }, 350);
 
   setTimeout(function () {
-    var bodyDims = theBody.getBoundingClientRect(),
-        widgetWrapperDims = widgetWrapper.getBoundingClientRect(),
-        widgetContentDims = widgetContent.getBoundingClientRect(),
-        scaleVal = bodyDims.width / widgetWrapper.scrollWidth;
-
-    theOutput_www1.textContent = "wrapper width (bounding rect) = " + widgetWrapperDims.width + "\n";
-    theOutput_www2.textContent = "wrapper width (scroll width) = " + widgetWrapper.scrollWidth + "\n";
-    theOutput_wcw.textContent = "content height = " + widgetContentDims.height + "\n";
-
-    widgetContent.style.transformOrigin = "0 0";
-    widgetContent.style.transform = 'scale(' + scaleVal + ')';
-
-    askIframeResize();
-  }, 1700);
+    scaleWidgetContent();
+  }, 5000);
 
 </script>
 
