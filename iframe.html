@@ -217,16 +217,16 @@
   }, 350);
 
   setTimeout(function () {
-    var scaleVal = 1.0,
-        bodyDims = theBody.getBoundingClientRect(),
+    var bodyDims = theBody.getBoundingClientRect(),
         widgetWrapperDims = {"width": widgetWrapper.scrollWidth, "height": widgetWrapper.scrollHeight},
-        widgetContentDims = {"width": widgetContent.scrollWidth, "height": widgetContent.scrollHeight};
+        widgetContentDims = {"width": widgetContent.scrollWidth, "height": widgetContent.scrollHeight},
+        scaleVal = bodyDims.width / widgetWrapperDims.width;
 
     theOutput_www.textContent = "wrapper width = " + widgetWrapperDims.width + "\n";
     theOutput_wcw.textContent = "content width = " + widgetContentDims.width + "\n";
 
-    widgetContent.style.transformOrigin = "0 0";
-    widgetContent.style.transform = 'scale(' + scaleVal + ')';
+    widgetWrapper.style.transformOrigin = "0 0";
+    widgetWrapper.style.transform = 'scale(' + scaleVal + ')';
   }, 1700);
 
 </script>
