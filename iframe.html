@@ -88,33 +88,38 @@
 </div>
 
 <div id="widgetWrapper">
-  <section>
-    <h1>iframe-ios-poc | content</h1>
-  </section>
+  <div id="widgetContent">
+    <section>
+      <h1>iframe-ios-poc | content</h1>
+    </section>
 
-  <section>
-    <pre id="theOutput--bh"></pre>
-    <pre id="theOutput--bw"></pre>
-    <pre id="theOutput--www"></pre>
-    <pre id="theOutput--wcw"></pre>
-  </section>
+    <section>
+      <pre id="theOutput--bh"></pre>
+      <pre id="theOutput--bw"></pre>
+      <pre id="theOutput--www1"></pre>
+      <pre id="theOutput--www2"></pre>
+      <pre id="theOutput--wcw"></pre>
+    </section>
 
-  <div class="theBigItem">
-    <h3>The Big Item</h3>
-    <p>The parent div of this text is purposely wider than what we think the iphone viewport might be.</p>
+    <div class="theBigItem">
+      <h3>The Big Item</h3>
+      <p>The parent div of this text is purposely wider than what we think the iphone viewport might be.</p>
+    </div>
+
+    <section>
+      <p>The magenta colored item above has a width that is definitely wider than the mobile viewport.</p>
+    </section>
   </div>
-
-  <section>
-    <p>The magenta colored item above has a width that is definitely wider than the mobile viewport.</p>
-  </section>
 </div>
 
 <script type="text/javascript">
   var theBody = document.getElementsByClassName('theBody')[0],
       widgetWrapper = document.getElementById('widgetWrapper'),
+      widgetContent = document.getElementById('widgetContent'),
       theOutput_bh = document.getElementById('theOutput--bh'),
       theOutput_bw = document.getElementById('theOutput--bw'),
-      theOutput_www = document.getElementById('theOutput--www'),
+      theOutput_www1 = document.getElementById('theOutput--www1'),
+      theOutput_www2 = document.getElementById('theOutput--www2'),
       theOutput_wcw = document.getElementById('theOutput--wcw');
 
   function toggleClass(className) {
@@ -163,21 +168,24 @@
 
   function askIframeResize() {
     var bodyDims = theBody.getBoundingClientRect(),
-        widgetWrapperDims = widgetWrapper.getBoundingClientRect();
+        widgetWrapperDims = widgetWrapper.getBoundingClientRect(),
+        widgetContentDims = widgetContent.getBoundingClientRect();
 
-    theOutput_bh.textContent = "body height = " + widgetWrapperDims.height + "\n";
+    theOutput_bh.textContent = "body height = " + bodyDims.height + "\n";
     theOutput_bw.textContent = "body width = " + bodyDims.width + "\n";
-    theOutput_www.textContent = "wrapper width (bounding rect) = " + widgetWrapperDims.width + "\n";
-    theOutput_wcw.textContent = "wrapper width (scroll width) = " + widgetWrapper.scrollWidth + "\n";
+    theOutput_www1.textContent = "wrapper width (bounding rect) = " + widgetWrapperDims.width + "\n";
+    theOutput_www2.textContent = "wrapper width (scroll width) = " + widgetWrapper.scrollWidth + "\n";
+    theOutput_wcw.textContent = "content height = " + widgetContentDims.height + "\n";
 
+    // this constrains the body so that in safari ios it does not expand the iframe
     widgetWrapper.style.maxWidth = bodyDims.width + "px";
 
-    console.log(widgetWrapperDims.height);
+    console.log(widgetContentDims.height);
 
     window.parent.postMessage({
       'type': 'size',
       'method': 'set',
-      'payload': {"width": "100%", "height": widgetWrapperDims.height + "px"}
+      'payload': {"width": "100%", "height": widgetContentDims.height + "px"}
     }, '*');
   }
 
@@ -219,13 +227,15 @@
   setTimeout(function () {
     var bodyDims = theBody.getBoundingClientRect(),
         widgetWrapperDims = widgetWrapper.getBoundingClientRect(),
+        widgetContentDims = widgetContent.getBoundingClientRect(),
         scaleVal = bodyDims.width / widgetWrapper.scrollWidth;
 
-    theOutput_www.textContent = "wrapper width (bounding rect) = " + widgetWrapperDims.width + "\n";
-    theOutput_wcw.textContent = "wrapper width (scroll width) = " + widgetWrapper.scrollWidth + "\n";
+    theOutput_www1.textContent = "wrapper width (bounding rect) = " + widgetWrapperDims.width + "\n";
+    theOutput_www2.textContent = "wrapper width (scroll width) = " + widgetWrapper.scrollWidth + "\n";
+    theOutput_wcw.textContent = "content height = " + widgetContentDims.height + "\n";
 
-    widgetWrapper.style.transformOrigin = "0 0";
-    widgetWrapper.style.transform = 'scale(' + scaleVal + ')';
+    widgetContent.style.transformOrigin = "0 0";
+    widgetContent.style.transform = 'scale(' + scaleVal + ')';
 
     askIframeResize();
   }, 1700);
