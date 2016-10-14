@@ -50,8 +50,9 @@
       overflow-x: auto;
       max-width: 300px;
     }
+
     #widgetContent {
-      position: absolute;
+      /*position: absolute;*/
     }
 
     .theBigItem {
@@ -216,15 +217,16 @@
   }, 350);
 
   setTimeout(function () {
-    var scaleVal = 1,
+    var scaleVal = 1.0,
         bodyDims = theBody.getBoundingClientRect(),
-        widgetWrapperDims = widgetWrapper.getBoundingClientRect(),
-        widgetContentDims = widgetContent.getBoundingClientRect();
+        widgetWrapperDims = {"width": widgetWrapper.scrollWidth, "height": widgetWrapper.scrollHeight},
+        widgetContentDims = {"width": widgetContent.scrollWidth, "height": widgetContent.scrollHeight};
 
     theOutput_www.textContent = "wrapper width = " + widgetWrapperDims.width + "\n";
     theOutput_wcw.textContent = "content width = " + widgetContentDims.width + "\n";
 
-    style.transform = 'scale(' + scaleVal + ')';
+    widgetContent.style.transformOrigin = "0 0";
+    widgetContent.style.transform = 'scale(' + scaleVal + ')';
   }, 1700);
 
 </script>
