@@ -1,1 +1,1840 @@
-function debounce(a,b,c){var d;return function(){var e=this,f=arguments,g=function(){d=null,c||a.apply(e,f)},h=c&&!d;clearTimeout(d),d=setTimeout(g,b),h&&a.apply(e,f)}}function generateId(){return"undefined"==typeof generateId.count&&(generateId.count=1),generateId.count++}function getSlide(a){a=parseInt(a,10);var b=$.grep(slideInfo,function(b){return b.identifier===a});return b[0]}function getIndex(a){a=parseInt(a,10);for(var b=0;b<slideInfo.length;b++)if(slideInfo[b].identifier===a)return b;return-1}function sendData(){var a={confirm:askConfirm};a.layout=currentLayout,widgetSize?a.widgetSize=widgetSize:a.widgetSize="100%",orientation?a.orientation=orientation:a.orientation="horizontal",s9.initialParams.labelFontFamily?a.labelFontFamily=s9.initialParams.labelFontFamily:a.labelFontFamily="Arial, sans-serif",s9.initialParams.labelFontSize?a.labelFontSize=s9.initialParams.labelFontSize:a.labelFontSize="14px",s9.initialParams.captionLineHeight?a.captionLineHeight=s9.initialParams.captionLineHeight:a.captionLineHeight="normal",s9.initialParams.captionFontFamily?a.captionFontFamily=s9.initialParams.captionFontFamily:a.captionFontFamily="Arial, sans-serif",s9.initialParams.captionFontSize?a.captionFontSize=s9.initialParams.captionFontSize:a.captionFontSize="14px",scale>0&&scale<=1?a.scale=scale:a.scale=1;for(var b=1;;){if(!slideInfo[b-1])break;a["image"+b]=slideInfo[b-1].imgsrc,a["label"+b]=slideInfo[b-1].label,a["caption"+b]=slideInfo[b-1].caption,a["slideShortDescription"+b]=slideInfo[b-1].slideShortDescription,a["slideLongDescription"+b]=slideInfo[b-1].slideLongDescription,slideInfo[b-1].hasOwnProperty("overlays")&&(a["overlays"+b]=JSON.stringify(slideInfo[b-1].overlays)),"undefined"!=typeof slideInfo[b-1].scale&&(a["scale"+b]=slideInfo[b-1].scale),a["imageWidth"+b]=slideInfo[b-1].imageWidth>=0?slideInfo[b-1].imageWidth:null,a["imageHeight"+b]=slideInfo[b-1].imageHeight>=0?slideInfo[b-1].imageHeight:null,b++}var c,d,e=$("input:checkbox");for(b=0;b<e.length;b++)c=e[b].id,d=$(e[b]).is(":checked")?"true":"false",a[c]=d;var f=$("select");for(b=0;b<f.length;b++)c=f[b].name,d=f[b].value,a[c]=d;mhe.updateConfigFile({json:a})}function displaySliderSize(a){return 100*a}function buildRadioButtonMenu(){var a="",b=getLayoutKeys();a+="<label>Type Placement</label><br/>",a+='<form action="">',a+='<fieldset style="border:0;line-height:150%">';for(var c in b)a+='<input type="radio" name="layoutchoice" value='+b[c].name+" /> "+b[c].desc+" <br/>";a+="</fieldset>",a+="</form>",$("#radio_menu").html(a)}function setLayoutType(a){var b=$("input:radio[name=layoutchoice]");b.filter("[value="+a+"]").prop("checked",!0)}function initSlideInfo(){if(s9)if(s9.initialParams&&s9.initialParams.configFile){var a=s9.initialParams.configFile;$.ajax({url:a,dataType:"json",success:function(a){var b,c,d,e,f=a.json,g=1;for(currentLayout=f.layout?f.layout:"LbotCbot",buildRadioButtonMenu(),setLayoutType(currentLayout);;){var h=new Image;if(imgsrc=f["image"+g],!imgsrc)break;h.src=imgsrc,h.className="fullImage";var i,j,k=f["label"+g],l=f["caption"+g];d="undefined"!=typeof f["slideShortDescription"+g]?f["slideShortDescription"+g]:"",e="undefined"!=typeof f["slideLongDescription"+g]?f["slideLongDescription"+g]:"",i=f["overlays"+g]?JSON.parse(f["overlays"+g]):[],j="undefined"!=typeof f["scale"+g]?f["scale"+g]:1,b=f["imageWidth"+g]>=0?f["imageWidth"+g]:null,c=f["imageHeight"+g]>=0?f["imageHeight"+g]:null;var m=generateId();slideInfo.push({image:h,imgsrc:imgsrc,label:k,caption:l,overlays:i,originalIndex:g,identifier:m,scale:j,imageWidth:b,imageHeight:c,slideShortDescription:d,slideLongDescription:e}),g++}"undefined"!=typeof f.widgetSize?widgetSize=f.widgetSize:widgetSize="100%",$("#widgetSize").val(widgetSize),f.orientation?orientation=f.orientation:orientation="horizontal",$("#orientation").val(orientation),f.scale?scale=f.scale||1:scale=1,$("#scale").val(displaySliderSize(scale)),$(document).trigger("contentChanged")},error:function(a,b,c){}})}else if(s9.initialParams&&!s9.initialParams.configFile){currentLayout="LbotCbot",buildRadioButtonMenu(),setLayoutType(currentLayout);for(var b,c,d,e,f,g=1;;){var h=new Image;if(imgsrc=s9.initialParams["image"+g],!imgsrc)break;h.src=imgsrc,h.className="fullImage";var i,j=s9.initialParams["label"+g],k=s9.initialParams["caption"+g];b="undefined"!=typeof JSONObject["slideShortDescription"+g]?JSONObject["slideShortDescription"+g]:"",c="undefined"!=typeof JSONObject["slideLongDescription"+g]?JSONObject["slideLongDescription"+g]:"",i=s9.initialParams["overlays"+g]?JSON.parse(s9.initialParams["overlays"+g]):[],f="undefined"!=typeof s9.initialParams["scale"+g]?s9.initialParams["scale"+g]:1,d=s9.initialParams["imageWidth"+g]>=0?s9.initialParams["imageWidth"+g]:null,e=s9.initialParams["imageHeight"+g]>=0?s9.initialParams["imageHeight"+g]:null;var l=generateId();slideInfo.push({image:h,imgsrc:imgsrc,label:j,caption:k,overlays:i,originalIndex:g,identifier:l,scale:f,imageWidth:d,imageHeight:e,slideShortDescription:b,slideLongDescription:c}),g++}"undefined"!=typeof s9.initialParams.widgetSize?widgetSize=s9.initialParams.widgetSize:widgetSize="100%",s9.initialParams.orientation?($("#orientation[name=orientation]").val(s9.initialParams.orientation),orientation=s9.initialParams.orientation):($("#orientation[name=orientation]").val("horizontal"),orientation="horizontal"),s9.initialParams.scale?scale=s9.initialParams.scale||1:scale=1,$("#scale").val(displaySliderSize(scale)),$(document).trigger("contentChanged")}}function convertSliderSize(a){if(a>=10&&a<=100)return a/100}function showPreview(){$(".preview").css({position:"relative",left:"auto"})}function hidePreview(){$(".preview").css({position:"absolute",left:"-10000px"})}function drawThumbnails(){var a=$("#slidelist-template").html().replace(/<\!\[CDATA\[|\]\]>/g,""),b=Handlebars.compile(a),c={slideData:slideInfo},d=document.querySelector(".mediaContent");d.innerHTML=b(c),$(".panel").imagesLoaded(function(){$(".nav-slide img").each(function(){this.naturalWidth<$(this).parent().width()&&$(this).css({width:this.naturalWidth,height:"auto",display:"inherit","margin-left":"auto","margin-right":"auto"})})})}function toggleWorkspace(){var a=$(".preview").css("left");"-10000px"===a?showPreview():hidePreview(),$(".upload").toggle()}function displayImageSettings(a){var b=getSlide(a);imagesLoaded(".wrapper-"+b.identifier+" img.fullImage",function(){$("#image-settings").empty();var a,c=$(".wrapper-"+b.identifier+" img.fullImage").width(),d=new Image;d.src=b.imgsrc;var e=Math.round(c/d.naturalWidth*100);e>100&&(e=100),a="undefined"==typeof b.scale?e:Math.round(100*b.scale);var f='<div style="margin-top: 20px;"><label for="imageScale">Scale %</label><input name="imageScale" type="text" value="'+a+'" data-name="imageScale" data-id="'+b.identifier+'"><button data-name="imageScale" data-id="'+b.identifier+'" style="display: none;">Set</button><span id="imageScaleMax"></span></div>';$("#image-settings").append(f)})}function displayOverlays(a){$(".overlay").remove();var b=getSlide(a);if(b.hasOwnProperty("overlays"))for(var c=0;c<b.overlays.length;c++){var d='<div class="draggable overlay overlays'+b.identifier+'" data-id="'+c+'" style="padding:1%;top: '+b.overlays[c].overlayPositionTop+"%; left: "+b.overlays[c].overlayPositionLeft+"%; position: absolute; z-index: "+b.identifier+'; opacity: 1;"><div class="handle" style="position: absolute;top: -7px;left: -7px;cursor: pointer;z-index: 1000;"><img src="img/handle.png"></div>'+b.overlays[c].overlayContent+"</div>";$("#preview-image .wrapper-"+b.identifier).append(d),$(".draggable").draggable({handle:".handle",containment:"parent",stop:function(){var a=$(this).position(),c=$(this).data("id"),d=a.left,e=a.top,f=Math.round(100*d/$("#preview-image").width()),g=Math.round(100*e/$("#preview-image").height());b.overlays[c].overlayPositionLeft=f,b.overlays[c].overlayPositionTop=g,sendData()}})}}function displayImageDescriptionEditors(a){$("#extraAccessibilityInfo").empty();var b=getSlide(a);if("img/blank.svg"!==b.imgsrc){var c=$("<div/>");c.addClass("form-group").append('<label for="slideShortDescription">Short Description</label><input id="slideShortDescription" type="text" value="'+b.slideShortDescription+'" class="form-control" data-id="'+a+'"/>');var d=$("<div/>");d.addClass("form-group").append('<label for="slideLongDescription">Long Description</label><textarea id="slideLongDescription" class="form-control" data-id="'+a+'">'+b.slideLongDescription+"</textarea>"),$("#extraAccessibilityInfo").append("<fieldset><legend>Accessibility</legend>"),$("#extraAccessibilityInfo > fieldset").append(c),$("#extraAccessibilityInfo > fieldset").append(d)}}function displayOverlayEditors(a){$(".overlayEdit").remove();var b=getSlide(a);if(b.hasOwnProperty("overlays"))for(var c=0;c<b.overlays.length;c++){var d='<div class="overlayEdit clearfix" data-name="overlay" data-id="'+c+'"><label for="overlayContent">Overlay Text</label><br /><div class="ckeditor" contenteditable="true" name="overlayContent" data-name="overlayContent" data-id="'+c+'" style="width: 100%; min-height: 50px; background-color: white;">'+b.overlays[c].overlayContent+'</div><button type="button" class="button icon-trash"></button><div class="button icon icon-arrows"></div><br /></div>';$("#overlays").append(d)}addCKEditor(),$("#edit-area > #overlays").sortable({items:".overlayEdit",containment:"parent",handle:".icon-arrows",update:function(a,b){var c=$(this).sortable("toArray",{attribute:"data-id"}),d=c.map(function(a){return parseInt(a,10)}),e=getSlide(currentSlide),f=function(a,b){return b.map(function(b){return a[b]})},g=f(e.overlays,d);e.overlays=g,sendData(),$("#overlays .overlayEdit").each(function(a,b){$(this).attr("data-id",a)}),displayOverlays(currentSlide)}})}function removeCKEditor(){if("undefined"!=typeof CKEDITOR)for(var a in CKEDITOR.instances){var b=CKEDITOR.instances[a];b.destroy()}}function addCKEditor(){removeCKEditor();var a={extraPlugins:"widget,dialog,clipboard,lineutils,mathjax,mheliststyle,menu,contextmenu",toolbar:[["FontSize"],["Bold","Italic","Underline"],["TextColor","BGColor"],{name:"paragraph",groups:["list","align"],items:["NumberedList","BulletedList","mheliststyle","-","JustifyLeft","JustifyCenter","JustifyRight","JustifyBlock"]},["Mathjax"]],font_defaultLabel:"Proxima Nova",floatSpacePinnedOffsetY:200,fontSize_defaultLabel:"14",autoParagraph:!0,enterMode:CKEDITOR.ENTER_P,mathJaxLib:"//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"},b={extraPlugins:"widget,dialog,clipboard,lineutils,mathjax",toolbar:[["FontSize"],["Bold","Italic","Underline"],["TextColor","BGColor"],["Mathjax"]],font_defaultLabel:"Proxima Nova",floatSpacePinnedOffsetY:200,fontSize_defaultLabel:"14",mathJaxLib:"//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"};$("#preview-area").imagesLoaded(function(){function c(a,b,c,d){var e,f=c,g=b,h=$(g).attr("data-name");if("label"===h||"caption"===h)e=slideInfo[currentSlide-1][h],slideInfo[currentSlide-1][h]=f,sendData();else if("overlayContent"===h){var i=parseInt($(g).attr("data-id"),10);e=slideInfo[currentSlide-1].overlays[i][h],slideInfo[currentSlide-1].overlays[i][h]=f,displayOverlays(slideInfo[currentSlide-1].identifier),myMathJaxTypeset(),sendData()}}mhe.configureCKEditor({ckeditorConfig:b,options:{wiris:!0,editorSelector:".ckeditor.item-text"}}),mhe.configureCKEditor({ckeditorConfig:a,options:{wiris:!0,editorSelector:'.ckeditor[name="overlayContent"]'}}),mhe.ckeditorInstallHandlers({changeCallback:c}),CKEDITOR.on("instanceReady",function(a){a.removeListener(),$.each(CKEDITOR.instances,function(a,b){var c,d=b.element.$,e=$(d).attr("data-name");if("overlayContent"===e&&slideInfo[currentSlide-1].hasOwnProperty("overlays")){var f=parseInt($(d).attr("data-id"),10);c=slideInfo[currentSlide-1].overlays[f][e]}else c=slideInfo[currentSlide-1][e];b.setData(c)})})})}function selectSlide(a){$(a).hasClass("nav-slide")||(a=$(".nav-slide")[0]);var b=$(".nav-slide");b.removeClass("active"),$(a).addClass("active");var c=$(a).closest("li"),d=c.attr("data-index"),e=c.data("id");currentSlide=parseInt(d,10);var f=getSlide(e);if(f){var g=$(".wrapper-"+f.identifier);if(g.stop(!0,!0).animate({opacity:1,duration:370}),lastStop>0&&lastStop<=slideInfo.length){var h=$(".wrapper-"+slideInfo[Math.round(lastStop)-1].identifier);g[0]!==h[0]&&h.stop(!0,!0).animate({opacity:0,duration:370})}lastStop=d,$("#slider").slider("option","animate",!1),$("#slider").slider("value",d),$("#slider").slider("option","animate",!0),$(".overlay").css({opacity:0}),setTimeout(function(){myMathJaxTypeset()},750),imagesLoaded(".wrapper-"+f.identifier,function(){displayImageSettings(f.identifier),displayOverlays(f.identifier),displayOverlayEditors(f.identifier),displayImageDescriptionEditors(f.identifier);var a=$(".preview").css("left");"-10000px"===a&&toggleWorkspace()})}}function orientThumbnails(){var a=$(".actual-image");$(a).each(function(a){var b=slideInfo[a].image;b&&($(b).load(function(a,b){return function(){var c=b.naturalHeight>b.naturalWidth;c?($(a).removeClass("landscape"),$(a).addClass("portrait")):($(a).removeClass("portrait"),$(a).addClass("landscape"))}}(this,b)),b.complete&&$(b).load())})}function renumberThumbnails(){var a=0,b=document.querySelectorAll("#slides ol li");Array.prototype.forEach.call(b,function(b,c){var d=c+1,e=b.getAttribute("data-index");parseInt(e,10)===parseInt(currentSlide,10)&&(a=d),b.setAttribute("data-index",d);var f=$(b).find(".actual-image");$(f).removeClass("image"+e).addClass("image"+d)}),currentSlide=a}function loadMediaTab(){drawThumbnails(),currentSlide>0&&selectSlide($(".nav-slide")[currentSlide-1]),$(".nav-slide .actual-image").each(function(){$(this).load(function(){$(this).hide(),$(this).fadeIn(400)})}),orientThumbnails(),$(".sortableThumbs").sortable({update:function(a,b){var c=b.item.attr("data-index");renumberThumbnails();var d=b.item.attr("data-index"),e=slideInfo.splice(c-1,1);slideInfo.splice(d-1,0,e[0]);for(var f=1;f<slideInfo.length+1;f++)slideInfo[f-1].originalIndex=f;sendData();var g=$(".nav-slide.active").closest("li").attr("data-id");selectSlide($(".nav-slide.slide-"+g))},forcePlaceholderSize:!0,placeholder:"sortable-placeholder",scroll:!1})}function drawDeck(){for(var a=0;a<slideInfo.length;a++){var b=$("<div/>");b.addClass("image-wrapper"),b.addClass("wrapper-"+slideInfo[a].identifier),b.append(slideInfo[a].image),$("#preview-image").append(b)}}function setPreviewSize(){$("#preview-image").css({height:"250px"});var a=!1;$(slideInfo).each(function(){var b;b="undefined"!=typeof this.scale?this.scale:1;var c=this.image.src,d=this.identifier;$(this.image).load(function(b,c,d){var e=new Image;e.src=c;var f=e.naturalHeight,g=e.naturalWidth,h=getSlide(d);h.imageWidth!==g&&(h.imageWidth=g,a=!0),h.imageHeight!==f&&(h.imageHeight=f,a=!0),a&&sendData(),f*=b,g*=b,imageNaturalHeights.push(f),imageNaturalWidths.push(g)}(b,c,d)),this.image&&this.image.complete&&$(this.image).load()}),$(".workspace").imagesLoaded(function(){for(var a=0,b=0,c=0;c<imageNaturalHeights.length;c++)(imageNaturalHeights[c]>a||imageNaturalHeights[c]===a&&imageNaturalWidths[c]>b)&&(a=imageNaturalHeights[c],b=imageNaturalWidths[c]);var d,e=Math.max.apply(null,imageNaturalWidths),f=e/b;d=f<=1?a*f:a,$("#preview-container").css({width:e+"px"}),$("#preview-image").css({width:e+"px",height:d+"px"}),$(".image-wrapper .fullImage").each(function(a,b){var c,f=e;c="undefined"!=typeof slideInfo[a].scale&&1!==slideInfo[a].scale?slideInfo[a].scale:1;var g=this.naturalHeight,h=this.naturalWidth;g*=c,h*=c;var i=f/h,j=g*i,k=h*i;h<=f&&g<=d?($(b).parent().css({width:h+"px",height:g+"px",display:"inherit",left:(f-h)/2+"px",top:(d-g)/2+"px"}),$(this).css({width:h+"px",height:g+"px",display:"inherit","margin-left":"auto","margin-right":"auto"})):h<=f&&j>d?($(b).parent().css({width:d/g*h+"px",height:d+"px",display:"inherit",left:"0px",top:"0px"}),$(this).css({width:d/g*h+"px",height:d+"px",display:"inherit","margin-left":"auto","margin-right":"auto"})):k>=f&&j<=d?($(b).parent().css({width:f+"px",height:j+"px",display:"inherit",left:"0px",top:(d-j)/2+"px"}),$(this).css({width:f+"px",height:j+"px",display:"inherit","margin-left":"auto","margin-right":"auto"})):k<=f&&j>d&&($(b).parent().css({width:d/j*k+"px",height:d+"px",display:"inherit",left:(f-d/j*k)/2+"px",top:"0px"}),$(this).css({width:d/j*k+"px",height:d+"px",display:"inherit","margin-left":"auto","margin-right":"auto"}))})})}function setSliderTicks(){var a,b=$("#slider"),c=b.slider("option","max");a=c>1?100/(c-1):50,b.find(".ui-slider-tick-mark").remove();for(var d=0;d<c;d++)$('<span class="ui-slider-tick-mark"></span>').css("left",a*d+"%").appendTo(b)}function clearGhosts(a,b,c){for(var d=0;d<slideInfo.length;d++)if(d!==a&&d!==b){var e=$(".wrapper-"+slideInfo[d].identifier);c?e.animate({opacity:0,duration:370}):e.css({opacity:0})}}function buildSlider(){$("#slider").slider({animate:!0,value:1,min:1,max:slideInfo.length,step:.01,slide:function(a,b){var c=b.value,d=Math.floor(c),e=c-d,f=Math.floor(c),g=Math.ceil(c);if(lastStop!==f&&lastStop!==g&&lastStop>0&&lastStop<=slideInfo.length){var h=$(".wrapper-"+slideInfo[lastStop-1].identifier);h.css("opacity",0)}var i=$(".wrapper-"+slideInfo[d-1].identifier),j=d<slideInfo.length?$(".wrapper-"+slideInfo[d].identifier):[];b.value>last&&($(i).css("opacity",1-e),$(j).css("opacity",e)),b.value<last&&($(i).css("opacity",1-e),$(j).css("opacity",e)),Math.floor(last)!==d&&clearGhosts(f-1,g-1),last=b.value},stop:function(a,b){var c=Math.round(b.value);$("#slider").slider("value",c),clearGhosts(c-1,void 0,!0);var d=slideInfo[c-1];currentSlide=c,selectSlide($(".nav-slide")[currentSlide-1]);var e=$(".nav-slide.slide-"+d.identifier),f=$(".wrapper-"+d.identifier);$(f).stop(!0,!0).animate({opacity:1,duration:370}),$(".nav-slide").removeClass("active"),e.addClass("active"),last=c,lastStop=c}})}function initSlider(){buildSlider(),setSliderTicks()}function onLoaded(){initSlider(),loadMediaTab(),$(".panel").imagesLoaded(function(){drawDeck(),setPreviewSize(),slideInfo.length>0?(currentSlide=1,showPreview(),$(".upload").hide(),selectSlide($(".nav-slide")[0])):(hidePreview(),$(".upload").show())})}function clickAdd(){$("#image-uploader").click()}function clickReplace(a){$("#image-replacer").data("id",a),$("#image-replacer").click()}function deleteSlide(a){var b=$("li.slide-"+a)[0],c=getIndex(a);if(c>-1&&($(slideInfo[c].image).closest(".image-wrapper").remove(),slideInfo.splice(c,1),sendData()),b){var d=$(b).attr("data-index"),e=$(".nav-slide"),f=e[d],g=e[d-2];$(b).animate({opacity:0},{duration:50}).slideUp(100,function(){b.parentNode.removeChild(b),$("#slider").slider("option","max",slideInfo.length);var a=d===currentSlide;renumberThumbnails(),setSliderTicks(),a?f?selectSlide(f):g?selectSlide(g):toggleWorkspace():$("#slider").slider("value",currentSlide),0===slideInfo.length&&(currentSlide=0),setPreviewSize()})}}function confirmDelete(a){var b=$(".overlay-mask"),c=$(".dialog-box");c.show(),b.addClass("overlay-mask-visible");var d=$(".confirmDelete"),e=$(".cancelDelete");d.on("click",function(){deleteSlide(a),$(this).off("click"),$(".confirmation").hide(),$(".overlay-mask").removeClass("overlay-mask-visible")}),e.on("click",function(){$(d).off("click")})}function clickDelete(a){askConfirm?confirmDelete(a):deleteSlide(a)}function addSlide(){var a=slideInfo.length+1,b=generateId(),c=new Image;c.src="img/blank.svg",c.className="fullImage";var d={image:c,originalIndex:a,imgsrc:"img/blank.svg",identifier:b,label:"",caption:"",slideShortDescription:"",slideLongDescription:""};slideInfo.push(d),sendData(),loadMediaTab(),$("#preview-image").empty(),drawDeck(),$("#slider").slider("option","max",slideInfo.length),setSliderTicks(),setPreviewSize();var e=$(".nav-slide").length;slideInfo.length>0?(currentSlide=parseInt(e,10),showPreview(),$(".upload").hide(),setTimeout(function(){selectSlide($(".nav-slide.slide-"+currentSlide))},100)):(hidePreview(),$(".upload").show())}function duplicateSlide(a){var b=$(".nav-slide.active").closest("li").attr("data-index"),c=generateId(),d=$.extend(!0,{},getSlide(a)),e=new Image;e.src=d.imgsrc,e.className="fullImage",d.image=e,d.originalIndex=parseInt(b,10)+1,d.identifier=c;for(var f=0;f<slideInfo.length;f++)slideInfo[f].originalIndex>=parseInt(b,10)+1&&(slideInfo[f].originalIndex=parseInt(slideInfo[f].originalIndex,10)+1);slideInfo.splice(parseInt(b,10),0,d),sendData(),loadMediaTab(),$("#preview-image").empty(),drawDeck(),$("#slider").slider("option","max",slideInfo.length),setSliderTicks(),setPreviewSize(),slideInfo.length>0?(currentSlide=parseInt(b,10)+1,showPreview(),$(".upload").hide(),setTimeout(function(){selectSlide($(".nav-slide")[parseInt(b,10)])},1)):(hidePreview(),$(".upload").show())}function addOverlay(){var a,b=currentSlide-1;slideInfo[b].hasOwnProperty("overlays")?a=slideInfo[b].overlays.length:(slideInfo[b].overlays=[],a=0),slideInfo[b].overlays[a]={overlayContent:"",overlayPositionTop:5,overlayPositionLeft:2},displayOverlayEditors(currentSlide)}function deleteOverlay(a){slideInfo[currentSlide-1].overlays.splice(a,1),sendData(),selectSlide($(".nav-slide")[currentSlide-1])}function autoSize(a,b){var c=$(a).outerHeight(!0);if(a.scrollHeight>=150)return a.style.overflow="auto",void(b?$(a).animate({height:"150px"},{duration:200,easing:"linear",queue:!1}):a.style.height="150px");var d=$(a);d.html(a.html),d.addClass("item-clone"),$(a.parentNode).append(d[0]);var e=d[0].scrollHeight;e<c&&(e=c),b?$(a).animate({height:e.toString()+"px"},{duration:200,easing:"linear",queue:!1}):a.style.height=e.toString()+"px",d.remove()}function dragHover(a){a.stopPropagation(),a.preventDefault(),"dragover"===a.type?($(a.target).addClass("hovering"),$(".dragText").addClass("ready-text"),$(".dragText").text("Ready to Drop"),$(".upload-instructions .details").text("Drop your files at any time.")):($(a.target).removeClass("hovering"),$(".dragText").removeClass("ready-text"),$(".dragText").text("Click to Upload Images"),$(".upload-instructions .details").html("or drag and drop files from your desktop.<p/>* All images should have the same aspect ratio."))}function uploadHandler(a){for(var b=a.target.files||a.dataTransfer.files,c=0;c<b.length;c++){var d=b[c],e=$("#slide-partial").html().replace(/<\!\[CDATA\[|\]\]>/g,""),f=Handlebars.compile(e),g=slideInfo.length+1,h=generateId();slideInfo.push({image:void 0,imgsrc:"img/blank.svg",label:"",caption:"",originalIndex:g,identifier:h,slideShortDescription:"",slideLongDescription:""});var i=f({originalIndex:slideInfo.length,imgsrc:"img/blank.svg",identifier:h});$(".sortableThumbs").append(i);var j=$("<div/>");j.addClass("image-wrapper wrapper-"+h),j.append('<span class="load-'+h+' load-container"><span class="load-progress"></span></span>'),$("#preview-image").append(j),$("li.slide-"+h+" .nav-slide").append('<span class="load-'+h+' load-container"><span class="load-progress"></span></span>'),$("#slider").slider("option","max",slideInfo.length),setSliderTicks(),window.parent.postMessage({type:"asset",method:"image",payload:{data:d,id:h,progress:!0}},"*")}}function fileDrop(a){dragHover(a),uploadHandler(a)}function dragInit(){var a=new XMLHttpRequest;if(a.upload){var b=$(".drag-area")[0];b.addEventListener("dragover",dragHover,!1),b.addEventListener("dragleave",dragHover,!1),b.addEventListener("drop",fileDrop,!1),$(".upload-instructions .details").show()}}try{var iframe=window.frameElement,winParent=window.parent;$(winParent.document).ready(function(){var a=winParent.jQuery;a&&(a(iframe).trigger("iframeloading"),$(function(){a(iframe).trigger("iframeready")}))})}catch(a){}var myMathJaxTypeset=debounce(function(){MathJax.Hub.Queue(["Typeset",MathJax.Hub])},1e3),currentLayout="LbotCbot",currentSlide=0,slideInfo=[],askConfirm=function(){return!s9.initialParams.confirm||"true"===s9.initialParams.confirm}(),blankImage=new Image,last=0,lastStop=0,imageNaturalHeights=[],imageNaturalWidths=[];window.addEventListener("message",function(a){var b,c=a.data;if("asset"===c.type&&"image"===c.method&&c.payload){var d=c.payload;if(1===d.progress){if(d.path){var e=d.path;b=d.id;var f=new Image;f.src=e,f.className="fullImage";var g=getSlide(b);if(!g)return;var h=$("li.slide-"+b+" .actual-image");$(".load-"+b+" .load-progress").width("100%"),h.attr("src",e),h.imagesLoaded(function(){$(".load-"+b).fadeOut(400,function(){$(".load-"+b).remove(),h.fadeIn(400),g.image=f,g.imgsrc=e,sendData();var a=$(".wrapper-"+b);a.css({opacity:0}),a.empty().append(g.image),a.animate({opacity:1,duration:400}),displayOverlays(g.identifier),orientThumbnails(),setPreviewSize(),selectSlide($(".nav-slide.slide-"+b)),myMathJaxTypeset()}),$(this).off("load")}),renumberThumbnails()}}else{b=d.id;var i=100*d.progress;$(".load-"+b+" .load-progress").delay(1500).width(i+"%"),0===currentSlide&&selectSlide($(".nav-slide")[0])}}}),window.addEventListener("load",function(){window.File&&window.FileList&&window.FileReader&&dragInit(),$("#extraAccessibilityInfo").on("change",":input",function(a){var b=$(this).attr("data-id"),c=getSlide(b);c[$(this).attr("id")]=$(this).val(),sendData()}),$('input[type="radio"]').on("change",function(a){currentLayout=a.target.value}),$(".cancelDelete").click(function(){$(".confirmation").hide(),$(".overlay-mask").removeClass("overlay-mask-visible")}),$("#showDelConf").change(function(){askConfirm=!$(this).is(":checked"),sendData()}),$("body").on("click",".add-image",function(){clickAdd()}),$("body").on("click",".add-slide",function(){addSlide()}),$(".add-overlay").on("click",function(){addOverlay()}),$(".btn-delete").on("click",function(){return clickDelete(slideInfo[currentSlide-1].identifier),!1}),$("body").on("click",".btn-trash",function(a){var b=$(a.currentTarget).attr("data-id");return clickDelete(b),!1}),$(".btn-replace").on("click",function(){return clickReplace(slideInfo[currentSlide-1].identifier),!1}),$(".btn-duplicate").on("click",function(){return duplicateSlide(slideInfo[currentSlide-1].identifier),!1}),$(".drag-area").on("click",function(){clickAdd()}),$(".slide-caption").on("input paste",function(){autoSize(this,!0)}),$(".panel").on("click",".icon-trash",function(){return clickDelete($(this).closest("li").data("id")),!1}),$(".panel").on("click",".nav-slide",function(){selectSlide(this)}),$("#image-uploader").change(function(a){uploadHandler(a),$(this).val("")}),$("#image-replacer").change(function(){var a=document.getElementById("image-replacer").files[0],b=$(this).data("id"),c=getIndex(b);slideInfo[c].image=void 0,$("li.slide-"+b+" .actual-image").fadeOut(400),$("li.slide-"+b+" .nav-slide").append('<span class="load-'+b+' load-container"><span class="load-progress"></span></span>'),$(".wrapper-"+b).empty().append('<span class="load-'+b+' load-container"><span class="load-progress"></span></span>'),$(this).val(""),window.parent.postMessage({type:"asset",method:"image",payload:{data:a,id:b,progress:!0}},"*")}),$(".marker").on("click",function(){$(this).hasClass("expanded")?($("#settings").hide(),$(this).removeClass("expanded").addClass("contracted")):$(this).hasClass("contracted")&&($("#settings").show(),$(this).removeClass("contracted").addClass("expanded"))}),$("#settings :input").on("change",function(a){var b=$(a.currentTarget).attr("name");switch(b){case"widgetSize":widgetSize=$(a.currentTarget).val(),setPreviewSize();break;case"orientation":orientation=$(a.currentTarget).val();break;case"scale":scale=convertSliderSize($(a.currentTarget).val())}sendData()}),$(".content").delegate(".overlayEdit .icon-trash","click",function(a){return deleteOverlay($(a.currentTarget).closest("div").attr("data-id")),!1}),$(".content").delegate("#overlays input","keyup change",function(a){var b=$(a.currentTarget).attr("data-name");if("overlayContent"!==b){var c=$(a.currentTarget).attr("data-id"),d=$(a.currentTarget).val(),e=slideInfo[currentSlide-1].overlays[parseInt(c,10)][b];d!==e&&(slideInfo[currentSlide-1].overlays[parseInt(c,10)][b]=d,displayOverlays(slideInfo[currentSlide-1].identifier),sendData())}}),$(".content").on("dragend",".ckeditor",function(a){var b,c=$(a.currentTarget).ckeditorGet(),d=c.getData(),e=c.element.$,f=$(e).attr("data-name");if("label"===f||"caption"===f)b=slideInfo[currentSlide-1][f],d!==b&&(slideInfo[currentSlide-1][f]=d,sendData());else if("overlayContent"===f){var g=parseInt($(e).attr("data-id"),10);b=slideInfo[currentSlide-1].overlays[g][f],d!==b&&(slideInfo[currentSlide-1].overlays[g][f]=d,displayOverlays(slideInfo[currentSlide-1].identifier),myMathJaxTypeset(),sendData())}else alert("Shouldn't be here.")}),$(".content").on("keyup","#image-settings input",function(a){var b=$(a.currentTarget).attr("data-id");$('#image-settings button[data-id="'+b+'"]').show()}),$(".content").on("click","#image-settings button",function(a){var b=$(a.currentTarget).attr("data-id"),c=getSlide(b),d=$(a.currentTarget).attr("data-name");if("imageScale"===d){var e=$('#image-settings input[data-id="'+b+'"]').val();if(e>0&&e<=100){var f=e/100;c.scale=f,imageNaturalWidths=[],imageNaturalHeights=[],sendData(),$("#preview-image").empty(),drawDeck(),setPreviewSize(),selectSlide($(".nav-slide.slide-"+b)),displayOverlays(c.identifier)}else e>100?$("#imageScaleMax").text("Maximum: 100%"):$("#imageScaleMax").text("")}})}),$(window).resize(function(){setPreviewSize();var a=315,b=56,c=70,d=$(window).width(),e=d-a-b-c;$("#preview-container").css({width:d-a+"px"}),$("#preview-area").css({width:e+"px",overflow:"scroll"}),$("#edit-area").css({width:e+"px","margin-left":"76px"})}),$(document).ready(function(){$(document).on("contentChanged",function(){imagesLoaded(document.body,onLoaded)}),Handlebars.registerPartial("slide",$("#slide-partial").html().replace(/<\!\[CDATA\[|\]\]>/g,"")),CKEDITOR.disableAutoInline=!0,$(".workspace").on("scroll",function(a){var b=CKEDITOR.currentInstance;b&&(b.focusManager.blur("noDelay"),$(".ckeditor").blur())}),initSlideInfo(),blankImage.src="img/blank.svg",$(blankImage).addClass("load-placeholder"),$(window).trigger("resize")});
+/* global s9, CKEDITOR, Handlebars, imagesLoaded, MathJax, mhe */
+// W083: Don't make functions with a loop
+// jshint -W083
+// W117: '...' is not defined
+// jshint -W117
+
+try {
+  var iframe = window.frameElement,
+      winParent = window.parent;
+  $(winParent.document).ready(function() {
+    var parent$ = winParent.jQuery;
+    if (parent$) {
+        parent$(iframe).trigger('iframeloading');
+        $(function() {
+          parent$(iframe).trigger('iframeready');
+        });
+    }
+  });
+}
+catch(e) {
+}
+
+// Returns a function, that, as long as it continues to be invoked, will not
+// be triggered. The function will be called after it stops being called for
+// N milliseconds. If `immediate` is passed, trigger the function on the
+// leading edge, instead of the trailing.
+// http://davidwalsh.name/javascript-debounce-function
+function debounce(func, wait, immediate) {
+  var timeout;
+  return function() {
+    var context = this, args = arguments;
+    var later = function() {
+      timeout = null;
+      if (!immediate) func.apply(context, args);
+    };
+    var callNow = immediate && !timeout;
+    clearTimeout(timeout);
+    timeout = setTimeout(later, wait);
+    if (callNow) func.apply(context, args);
+  };
+}
+
+var myMathJaxTypeset = debounce(function() {
+    MathJax.Hub.Queue(
+        ["Typeset",MathJax.Hub]
+    );
+}, 1000);
+
+//--------------------------------------------------------------------
+// Global variables
+//--------------------------------------------------------------------
+
+var currentLayout = "LbotCbot";
+
+var currentSlide = 0; //Note: this is a number defined by the order of the slides, not the identifiers.
+
+var slideInfo = [];
+
+var askConfirm = (function(){
+    if (s9.initialParams.confirm) {
+        return (s9.initialParams.confirm === 'true');
+    } else {
+        return true;
+    }
+})();
+
+var blankImage = new Image();
+
+var last = 0;
+var lastStop = 0;
+
+var imageNaturalHeights = [];
+var imageNaturalWidths = [];
+
+//--------------------------------------------------------------------
+// Slide identifier helpers
+//--------------------------------------------------------------------
+
+/* function generateId() just gives consecutive numbers -
+ * this is used for a separate identifier from the index/order of the slides
+ * and shouldn't change when the order is changed. It should be used for
+ * actions that may be interwoven with reordering actions. E.g. image uploads, deletions.
+ */
+function generateId() {
+    if (typeof generateId.count === 'undefined'){
+        generateId.count = 1;
+    }
+    return generateId.count++;
+}
+
+function getSlide(ident) {
+    ident = parseInt(ident, 10);
+    var entry = $.grep(slideInfo, function(e){ return e.identifier === ident; });
+    return entry[0];
+}
+
+// function getIndex returns the index of the slide with identifier @param ident
+// in slideInfo, i.e. one less than its number in the thumbnails.
+function getIndex(ident) {
+    ident = parseInt(ident, 10);
+    for (var i = 0; i < slideInfo.length; i++){
+        if (slideInfo[i].identifier === ident){
+            return i;
+        }
+    }
+    return -1;
+}
+
+
+//--------------------------------------------------------------------
+// Data-saving functions
+//--------------------------------------------------------------------
+
+function sendData(){
+    var payload = {
+        'confirm': askConfirm
+    };
+
+    payload.layout = currentLayout;
+
+    //console.log('MHE params added to payload to be sent via configuration api');
+    if (widgetSize) {
+        payload.widgetSize = widgetSize;
+    } else {
+        payload.widgetSize = '100%';
+    }
+    if (orientation) {
+        payload.orientation = orientation;
+    } else {
+        payload.orientation = "horizontal";
+    }
+
+    if (s9.initialParams.labelFontFamily) {
+        payload.labelFontFamily = s9.initialParams.labelFontFamily;
+    } else {
+        payload.labelFontFamily = "Arial, sans-serif";
+    }
+
+    if (s9.initialParams.labelFontSize) {
+        payload.labelFontSize = s9.initialParams.labelFontSize;
+    } else {
+        payload.labelFontSize = "14px";
+    }
+
+    if (s9.initialParams.captionLineHeight) {
+        payload.captionLineHeight = s9.initialParams.captionLineHeight;
+    } else {
+        payload.captionLineHeight = "normal";
+    }
+
+    if (s9.initialParams.captionFontFamily) {
+        payload.captionFontFamily = s9.initialParams.captionFontFamily;
+    } else {
+        payload.captionFontFamily = "Arial, sans-serif";
+    }
+
+    if (s9.initialParams.captionFontSize) {
+        payload.captionFontSize = s9.initialParams.captionFontSize;
+    } else {
+        payload.captionFontSize = "14px";
+    }
+
+    if (scale > 0 && scale <=1) {
+        payload.scale = scale;
+    } else {
+        payload.scale = 1;
+    }
+
+    var i = 1;
+    while (true){
+        if (!slideInfo[i-1]) {
+            break;
+        }
+        payload['image' + i] = slideInfo[i - 1].imgsrc;
+        payload['label' + i] = slideInfo[i - 1].label;
+        payload['caption' + i] = slideInfo[i - 1].caption;
+        payload['slideShortDescription' + i] = slideInfo[i - 1].slideShortDescription;
+        payload['slideLongDescription' + i] = slideInfo[i - 1].slideLongDescription;
+        if (slideInfo[i - 1].hasOwnProperty('overlays')) {
+            payload['overlays' + i] = JSON.stringify(slideInfo[i - 1].overlays);
+        }
+        if (typeof slideInfo[i - 1].scale !== 'undefined') {
+            payload['scale' + i] = slideInfo[i - 1].scale;
+        }
+        payload['imageWidth' + i] = (slideInfo[i - 1].imageWidth >= 0) ? slideInfo[i - 1].imageWidth : null;
+        payload['imageHeight' + i] = (slideInfo[i - 1].imageHeight >= 0) ? slideInfo[i - 1].imageHeight : null;
+        i++;
+    }
+
+    var checkboxes = $('input:checkbox');
+    var key;
+    var value;
+    for (i = 0; i < checkboxes.length; i++){
+        key = checkboxes[i].id;
+        value = $(checkboxes[i]).is(':checked') ? 'true' : 'false';
+        payload[key] = value;
+    }
+
+    var menus = $('select');
+    for (i = 0; i < menus.length; i++){
+        key = menus[i].name;
+        value = menus[i].value;
+        payload[key] = value;
+    }
+
+    mhe.updateConfigFile({"json": payload});
+
+}
+
+//--------------------------------------------------------------------
+// Initialization/setup functions
+//--------------------------------------------------------------------
+
+function displaySliderSize(size) {
+    return size * 100;
+}
+
+
+function buildRadioButtonMenu(){
+
+  var myhtml = '';
+  var mylayoutInfo = getLayoutKeys();
+  myhtml += '<label>Type Placement</label><br/>';
+  myhtml += '<form action="">';
+  myhtml += '<fieldset style="border:0;line-height:150%">';
+
+  for( var obj in mylayoutInfo){
+    myhtml += '<input type="radio" name="layoutchoice" value='+ mylayoutInfo[obj].name +' /> '+ mylayoutInfo[obj].desc+ ' <br/>';
+  }
+
+  myhtml += '</fieldset>';
+  myhtml += '</form>';
+
+  $("#radio_menu").html(myhtml);
+
+}
+
+
+
+function setLayoutType(p_Type){
+   var radios  = $('input:radio[name=layoutchoice]');
+   radios.filter("[value=" + p_Type + "]").prop('checked', true);
+}
+
+
+// NOTE: This function must be called before any other interactions with the slide data!
+function initSlideInfo() {
+    if (s9) {
+        if (s9.initialParams && s9.initialParams.configFile) {
+            var configFileUrl = s9.initialParams.configFile;
+            $.ajax({
+                url: configFileUrl,
+                dataType: 'json',
+                success: function(iConfigFileContents) {
+                    var JSONObject = iConfigFileContents.json;
+                    var i = 1, imageWidth, imageHeight, slideShortDescription, slideLongDescription;
+
+                    // catch prior instances where widget was built,
+                    // but there was no layout choices available yet
+                    if(JSONObject.layout){
+                        currentLayout = JSONObject.layout;
+                    }else{
+                         currentLayout = "LbotCbot";
+                    }
+
+                    buildRadioButtonMenu();
+                    setLayoutType(currentLayout);
+                    while (true){
+                        var image = new Image();
+                        imgsrc = JSONObject['image' + i];
+                        if (!imgsrc){
+                            break;
+                        }
+                        image.src = imgsrc;
+                        image.className = 'fullImage';
+                        var label = JSONObject['label' + i];
+                        var caption = JSONObject['caption' + i];
+                        var overlays;
+                        var imageScale;
+                        slideShortDescription = (typeof JSONObject['slideShortDescription' + i] !== 'undefined') ? JSONObject['slideShortDescription' + i] : '';
+                        slideLongDescription = (typeof JSONObject['slideLongDescription' + i] !== 'undefined') ? JSONObject['slideLongDescription' + i] : '';
+                        if (JSONObject['overlays' + i]) {
+                            overlays = JSON.parse(JSONObject['overlays' + i]);
+                        } else {
+                            overlays = [];
+                        }
+                        if (typeof JSONObject['scale' + i] !== 'undefined') {
+                            imageScale = JSONObject['scale' + i];
+                        } else {
+                            imageScale = 1;
+                        }
+                        imageWidth = (JSONObject['imageWidth' + i] >= 0) ? JSONObject['imageWidth' + i] : null;
+                        imageHeight = (JSONObject['imageHeight' + i] >= 0) ? JSONObject['imageHeight' + i] : null;
+                        var ident = generateId();
+
+                        slideInfo.push({
+                            image: image,
+                            imgsrc: imgsrc,
+                            label: label,
+                            caption: caption,
+                            overlays: overlays,
+                            originalIndex: i,
+                            identifier: ident,
+                            scale: imageScale,
+                            imageWidth: imageWidth,
+                            imageHeight: imageHeight,
+                            slideShortDescription: slideShortDescription,
+                            slideLongDescription: slideLongDescription
+                        });
+                        i++;
+                    }
+                    if (typeof JSONObject.widgetSize !== "undefined") {
+                        widgetSize = JSONObject.widgetSize;
+                    } else {
+                        widgetSize = '100%';
+                    }
+                    $('#widgetSize').val(widgetSize);
+                    if (JSONObject.orientation) {
+                        orientation = JSONObject.orientation;
+                    } else {
+                        orientation = 'horizontal';
+                    }
+                    $('#orientation').val(orientation);
+                    if (JSONObject.scale) {
+                        scale = JSONObject.scale || 1;
+                    } else {
+                        scale = 1;
+                    }
+                    $('#scale').val(displaySliderSize(scale));
+                    $(document).trigger('contentChanged');
+                },
+                error: function(iErr1, iErr2, iErr3) {
+                }
+            });
+        } else if (s9.initialParams && !s9.initialParams.configFile) {
+            currentLayout = "LbotCbot";
+            buildRadioButtonMenu();
+            setLayoutType(currentLayout);
+            var i = 1, slideShortDescription, slideLongDescription, imageWidth, imageHeight, imageScale;
+            while (true){
+                var image = new Image();
+                imgsrc = s9.initialParams['image' + i];
+                if (!imgsrc){
+                    break;
+                }
+                image.src = imgsrc;
+                image.className = 'fullImage';
+                var label = s9.initialParams['label' + i];
+                var caption = s9.initialParams['caption' + i];
+                var overlays;
+                slideShortDescription = (typeof JSONObject['slideShortDescription' + i] !== 'undefined') ? JSONObject['slideShortDescription' + i] : '';
+                slideLongDescription = (typeof JSONObject['slideLongDescription' + i] !== 'undefined') ? JSONObject['slideLongDescription' + i] : '';
+                if (s9.initialParams['overlays' + i]) {
+                    overlays = JSON.parse(s9.initialParams['overlays' + i]);
+                } else {
+                    overlays = [];
+                }
+                if (typeof s9.initialParams['scale' + i] !== 'undefined') {
+                    imageScale = s9.initialParams['scale' + i];
+                } else {
+                    imageScale = 1;
+                }
+                imageWidth = (s9.initialParams['imageWidth' + i] >= 0) ? s9.initialParams['imageWidth' + i] : null;
+                imageHeight = (s9.initialParams['imageHeight' + i] >= 0) ? s9.initialParams['imageHeight' + i] : null;
+                var ident = generateId();
+                slideInfo.push({
+                    image: image,
+                    imgsrc: imgsrc,
+                    label: label,
+                    caption: caption,
+                    overlays: overlays,
+                    originalIndex: i,
+                    identifier: ident,
+                    scale: imageScale,
+                    imageWidth: imageWidth,
+                    imageHeight: imageHeight,
+                    slideShortDescription: slideShortDescription,
+                    slideLongDescription: slideLongDescription
+                });
+                i++;
+            }
+            if (typeof s9.initialParams.widgetSize !== 'undefined') {
+                widgetSize = s9.initialParams.widgetSize;
+            } else {
+                widgetSize = '100%';
+            }
+            if (s9.initialParams.orientation) {
+                $('#orientation[name=orientation]').val(s9.initialParams.orientation);
+                orientation = s9.initialParams.orientation;
+            } else {
+                $('#orientation[name=orientation]').val("horizontal");
+                orientation = 'horizontal';
+            }
+
+            if (s9.initialParams.scale) {
+                scale = s9.initialParams.scale || 1;
+            } else {
+                scale = 1;
+            }
+            $('#scale').val(displaySliderSize(scale));
+            $(document).trigger('contentChanged');
+        }
+    }
+
+}
+
+function convertSliderSize(percentage) {
+    if ((percentage >= 10) && (percentage <= 100)) return (percentage / 100);
+}
+
+function showPreview() {
+    $('.preview').css({"position": "relative", "left": "auto"});
+}
+
+function hidePreview() {
+    $('.preview').css({"position": "absolute", "left": "-10000px"});
+}
+
+function drawThumbnails() {
+    var slideTemplate = $('#slidelist-template').html().replace(/<\!\[CDATA\[|\]\]>/g, '');
+    var slide = Handlebars.compile(slideTemplate);
+    var data = {
+        slideData: slideInfo
+    };
+    var olContainer = document.querySelector('.mediaContent');
+    olContainer.innerHTML = slide(data);
+    $('.panel').imagesLoaded(function() {
+        $('.nav-slide img').each(function() {
+            if (this.naturalWidth < $(this).parent().width()) {
+                $(this).css({
+                    "width": this.naturalWidth,
+                    "height": "auto",
+                    "display": "inherit",
+                    "margin-left": "auto",
+                    "margin-right": "auto"
+                });
+            }
+        });
+    });
+}
+
+function toggleWorkspace() {
+    var leftOffset = $('.preview').css('left');
+    if (leftOffset === '-10000px') {
+        showPreview();
+    } else {
+        hidePreview();
+    }
+    $('.upload').toggle();
+}
+
+function displayImageSettings(ident) {
+    var slideEntry = getSlide(ident);
+    imagesLoaded('.wrapper-' + slideEntry.identifier + ' img.fullImage', function() {
+        $('#image-settings').empty();
+        var imageScale;
+        var currentWidth = $('.wrapper-' + slideEntry.identifier + ' img.fullImage').width();
+        var newImage = new Image();
+        newImage.src = slideEntry.imgsrc;
+        var imageScaleActual = Math.round(currentWidth / newImage.naturalWidth * 100);
+        if (imageScaleActual > 100) {
+            imageScaleActual = 100;
+        }
+        if (typeof slideEntry.scale === "undefined") {
+            imageScale = imageScaleActual;
+        } else {
+            imageScale = Math.round(slideEntry.scale * 100);
+        }
+        var html = '<div style="margin-top: 20px;">' +
+            '<label for="imageScale">Scale %</label>' +
+            '<input name="imageScale" type="text" value="' +
+            imageScale +
+            '" data-name="imageScale" data-id="' + slideEntry.identifier + '">' +
+            '<button data-name="imageScale" data-id="' + slideEntry.identifier + '" style="display: none;">Set</button>' +
+            '<span id="imageScaleMax"></span></div>';
+        $('#image-settings').append(html);
+    });
+}
+
+function displayOverlays(ident) {
+    $('.overlay').remove();
+    var slideEntry = getSlide(ident);
+    if (slideEntry.hasOwnProperty('overlays')) {
+        for (var i = 0; i < slideEntry.overlays.length; i++) {
+            var thisOverlay = '<div class="draggable overlay overlays' + slideEntry.identifier + '" data-id="' + i + '" style="padding:1%;top: ' +
+                    slideEntry.overlays[i].overlayPositionTop + '%; left: ' +
+                    slideEntry.overlays[i].overlayPositionLeft + '%; position: absolute; ' +
+                    'z-index: ' + slideEntry.identifier + '; opacity: 1;">' +
+                    '<div class="handle" style="position: absolute;top: -7px;left: -7px;cursor: pointer;z-index: 1000;"><img src="img/handle.png"></div>'+
+                    slideEntry.overlays[i].overlayContent +
+                '</div>';
+            $('#preview-image .wrapper-' + slideEntry.identifier).append(thisOverlay);
+            $('.draggable').draggable({
+                handle: ".handle",
+                containment: 'parent',
+                stop: function() {
+                    var position = $(this).position(),
+                        thisId = $(this).data("id"),
+                        xPos = position.left,
+                        yPos = position.top,
+                        xPercent = Math.round((xPos * 100) / $("#preview-image").width()),
+                        yPercent = Math.round((yPos * 100) / $("#preview-image").height());
+
+                    slideEntry.overlays[thisId].overlayPositionLeft = xPercent;
+                    slideEntry.overlays[thisId].overlayPositionTop = yPercent;
+                    sendData();
+                }
+            });
+        }
+    }
+}
+
+function displayImageDescriptionEditors(ident) {
+    $('#extraAccessibilityInfo').empty();
+    var slideEntry = getSlide(ident);
+    if (slideEntry.imgsrc === 'img/blank.svg') return;
+    var $shortDescription = $('<div/>');
+    $shortDescription.addClass('form-group')
+        .append('<label for="slideShortDescription">Short Description</label><input id="slideShortDescription" type="text" value="' + slideEntry.slideShortDescription + '" class="form-control" data-id="' + ident + '"/>');
+    var $longDescription = $('<div/>');
+    $longDescription.addClass('form-group')
+        .append('<label for="slideLongDescription">Long Description</label><textarea id="slideLongDescription" class="form-control" data-id="' + ident + '">' + slideEntry.slideLongDescription + '</textarea>');
+    $('#extraAccessibilityInfo').append('<fieldset><legend>Accessibility</legend>');
+    $('#extraAccessibilityInfo > fieldset').append($shortDescription);
+    $('#extraAccessibilityInfo > fieldset').append($longDescription);
+}
+
+function displayOverlayEditors(ident) {
+    $('.overlayEdit').remove();
+    var slideEntry = getSlide(ident);
+    if (slideEntry.hasOwnProperty('overlays')) {
+        for (var i = 0; i < slideEntry.overlays.length; i++) {
+            var thisOverlayEdit = '<div class="overlayEdit clearfix" data-name="overlay" data-id="' + i + '">' +
+                    '<label for="overlayContent">Overlay Text</label>' +
+                    '<br />' +
+                    '<div class="ckeditor" contenteditable="true" name="overlayContent" data-name="overlayContent" data-id="' + i + '" style="width: 100%; min-height: 50px; background-color: white;">' + slideEntry.overlays[i].overlayContent + '</div>' +
+                    '<button type="button" class="button icon-trash"></button>' +
+                    '<div class="button icon icon-arrows"></div>' +
+                    '<br />' +
+                '</div>';
+            $('#overlays').append(thisOverlayEdit);
+        }
+    }
+    addCKEditor();
+    $('#edit-area > #overlays').sortable({
+        items: '.overlayEdit',
+        containment: 'parent',
+        handle: '.icon-arrows',
+        update: function(event, ui) {
+            var sortOrder = $(this).sortable('toArray', {
+                attribute: 'data-id'
+            });
+            var newSortOrder = sortOrder.map(function(x) {
+                return parseInt(x, 10);
+            });
+            var thisSlide = getSlide(currentSlide);
+            var orderedArray = function(arr, order) {
+                return order.map(function(itm) {
+                    return arr[itm];
+                });
+            };
+            var arr = orderedArray(thisSlide.overlays, newSortOrder);
+            thisSlide.overlays = arr;
+            sendData();
+            $('#overlays .overlayEdit').each(function(index, el) {
+                $(this).attr('data-id', index);
+            });
+            displayOverlays(currentSlide);
+        }
+    });
+}
+
+function removeCKEditor() {
+    if (typeof CKEDITOR === 'undefined') return;
+    for (var k in CKEDITOR.instances) {
+        var instance = CKEDITOR.instances[k];
+        instance.destroy();
+    }
+}
+
+function addCKEditor() {
+    removeCKEditor();
+    var overlayConfig = {
+        extraPlugins: 'widget,dialog,clipboard,lineutils,mathjax,mheliststyle,menu,contextmenu',
+        toolbar: [
+            ['FontSize'],
+            ['Bold','Italic','Underline'],
+            ['TextColor','BGColor'],
+            {
+                name: 'paragraph',
+                groups: [ 'list', 'align' ],
+                items: [ 'NumberedList', 'BulletedList', 'mheliststyle', '-', 'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock' ]
+            },
+            ['Mathjax']
+        ],
+        font_defaultLabel: 'Proxima Nova',
+        floatSpacePinnedOffsetY: 200,
+        fontSize_defaultLabel: '14',
+        autoParagraph: true,
+        enterMode: CKEDITOR.ENTER_P,
+        mathJaxLib: '\/\/cdn.mathjax.org\/mathjax\/latest\/MathJax.js?config=TeX-AMS-MML_HTMLorMML'
+    };
+
+    var labelCaptionConfig = {
+        extraPlugins: 'widget,dialog,clipboard,lineutils,mathjax',
+        toolbar: [
+            ['FontSize'],
+            ['Bold','Italic','Underline'],
+            ['TextColor','BGColor'],
+            ['Mathjax']
+        ],
+        font_defaultLabel: 'Proxima Nova',
+        floatSpacePinnedOffsetY: 200,
+        fontSize_defaultLabel: '14',
+        mathJaxLib: '\/\/cdn.mathjax.org\/mathjax\/latest\/MathJax.js?config=TeX-AMS-MML_HTMLorMML'
+    };
+
+    $('#preview-area').imagesLoaded(function() {
+        mhe.configureCKEditor({
+            ckeditorConfig: labelCaptionConfig,
+            options: {
+                wiris: true,
+                editorSelector: '.ckeditor.item-text'
+            }
+        });
+        mhe.configureCKEditor({
+            ckeditorConfig: overlayConfig,
+            options: {
+                wiris: true,
+                editorSelector: '.ckeditor[name="overlayContent"]'
+            }
+        });
+
+        function ckeditorChangeHandler(event, iEl, iData, clientContext) {
+            var data = iData;
+            var el = iEl;
+            var dataName = $(el).attr('data-name');
+            var oldData;
+            if ((dataName === 'label') || (dataName === 'caption')) {
+                oldData = slideInfo[currentSlide - 1][dataName];
+                slideInfo[currentSlide - 1][dataName] = data;
+                sendData();
+            } else if (dataName === 'overlayContent') {
+                var dataID = parseInt($(el).attr('data-id'), 10);
+                oldData = slideInfo[currentSlide - 1].overlays[dataID][dataName];
+                slideInfo[currentSlide - 1].overlays[dataID][dataName] = data;
+                displayOverlays(slideInfo[currentSlide - 1].identifier);
+                myMathJaxTypeset();
+                sendData();
+            } else {
+                console.log('CKEditor field type unknown.');
+            }
+
+        }
+
+        mhe.ckeditorInstallHandlers({changeCallback: ckeditorChangeHandler});
+
+        CKEDITOR.on('instanceReady', function(e) {
+            e.removeListener();
+            $.each(CKEDITOR.instances, function(i, editor) {
+                var el = editor.element.$;
+                var dataName = $(el).attr('data-name');
+                var data;
+                if ((dataName === 'overlayContent') && slideInfo[currentSlide - 1].hasOwnProperty('overlays')) {
+                    var dataID = parseInt($(el).attr('data-id'), 10);
+                    data = slideInfo[currentSlide - 1].overlays[dataID][dataName];
+                } else {
+                    data = slideInfo[currentSlide - 1][dataName];
+                }
+                editor.setData(data);
+            });
+        });
+    });
+}
+
+/* This function makes the slide indicated by @param which active.
+ * @param which should be a div with the class "nav-slide")
+ * directly containing the thumbnail image.
+ * selectSlide highlights the thumbnail and shows the image and associated text.
+ */
+function selectSlide(which) {
+    if (!$(which).hasClass('nav-slide')) {
+        // if for some reason there's a bad argument, select first slide
+        which = $('.nav-slide')[0];
+    }
+    var thumbs = $('.nav-slide');
+    thumbs.removeClass('active');
+    $(which).addClass('active');
+    var li = $(which).closest('li');
+    var ind = li.attr('data-index');
+    var id = li.data('id');
+    currentSlide = parseInt(ind, 10);
+    var slideEntry = getSlide(id);
+    if (!slideEntry) {
+        /* If execution gets here, information for this slide doesn't exist.
+         * This means something got messed up.
+         * How should we handle this?
+         */
+        //console.log('no info for slide (slideEntry).');
+        return;
+    }
+
+    var show =  $('.wrapper-' + slideEntry.identifier);
+    show.stop(true,true).animate({opacity: 1, duration: 370});
+    if (lastStop > 0 && lastStop <= slideInfo.length){
+        var hide = $('.wrapper-' + slideInfo[Math.round(lastStop)-1].identifier);
+        if (show[0] !== hide[0]) {
+            hide.stop(true,true).animate({opacity: 0, duration: 370});
+        }
+    }
+    lastStop = ind;
+
+    // HACK (lilith): for some reason turning off animation and turning it back on
+    // after setting value fixes jerky animation issue. Can't pinpoint why the problem exists in the first place
+    // although it seems to be a known problem with jQuery slider
+    $('#slider').slider('option', 'animate', false);
+    $('#slider').slider('value', ind);
+    $('#slider').slider('option', 'animate', true);
+
+    $('.overlay').css({'opacity': 0});
+    setTimeout(function() {
+        //MathJax.Hub.Queue(["Typeset", MathJax.Hub]);
+        myMathJaxTypeset();
+        //addCKEditor();
+    }, 750);
+    imagesLoaded('.wrapper-' + slideEntry.identifier, function() {
+        displayImageSettings(slideEntry.identifier);
+        displayOverlays(slideEntry.identifier);
+        displayOverlayEditors(slideEntry.identifier);
+        displayImageDescriptionEditors(slideEntry.identifier);
+
+        var leftOffset = $('.preview').css('left');
+        if (leftOffset === '-10000px') {
+            toggleWorkspace();
+        }
+
+
+    });
+
+}
+
+/* NOTE: This implementation assumes that the slideInfo array
+ * is kept up to date with the thumbnail order.
+ */
+function orientThumbnails() {
+    var thumb_imgs = $('.actual-image');
+    $(thumb_imgs).each(function(i) {
+        var image = slideInfo[i].image;
+        if (!image) {
+            return;
+        }
+        $(image).load( (function(thumb, image){
+            return function() {
+                var portrait = (image.naturalHeight > image.naturalWidth);
+                if (portrait) {
+                    $(thumb).removeClass('landscape');
+                    $(thumb).addClass('portrait');
+                } else {
+                    $(thumb).removeClass('portrait');
+                    $(thumb).addClass('landscape');
+                }
+            };
+        })(this, image));
+
+        if (image.complete) {
+            $(image).load();
+        }
+    });
+}
+
+function renumberThumbnails(){
+    var newCurrent = 0;
+    var slides = document.querySelectorAll('#slides ol li');
+    Array.prototype.forEach.call(slides, function(slide, arrayIdx){
+        var idx = arrayIdx + 1;
+        var oldIdx = slide.getAttribute('data-index');
+        if (parseInt(oldIdx, 10) === parseInt(currentSlide, 10)) {
+            newCurrent = idx;
+        }
+        slide.setAttribute('data-index', idx);
+
+        var image = $(slide).find('.actual-image');
+        $(image).removeClass('image' + oldIdx).addClass('image' + idx);
+    });
+    currentSlide = newCurrent;
+}
+
+function loadMediaTab(){
+    drawThumbnails();
+
+    if (currentSlide > 0){
+        selectSlide($('.nav-slide')[currentSlide-1]);
+    }
+
+    $('.nav-slide .actual-image').each(function() {
+        $(this).load(function() {
+            $(this).hide();
+            $(this).fadeIn(400);
+        });
+    });
+
+    orientThumbnails();
+
+    $('.sortableThumbs').sortable({
+        update: function(event, ui){
+
+            var old_ind = ui.item.attr('data-index');
+            renumberThumbnails();
+            var new_ind = ui.item.attr('data-index');
+            var slide = slideInfo.splice(old_ind - 1, 1);
+            slideInfo.splice(new_ind - 1, 0, slide[0]);
+            for (var i = 1; i < slideInfo.length + 1; i++) {
+                slideInfo[i - 1].originalIndex = i;
+            }
+            sendData();
+
+            var id = $('.nav-slide.active').closest('li').attr('data-id');
+            selectSlide($('.nav-slide.slide-' + id));
+        },
+        forcePlaceholderSize: true,
+        placeholder: 'sortable-placeholder',
+        scroll: false
+    });
+}
+
+function drawDeck() {
+    for (var i = 0 ; i < slideInfo.length; i++){
+        var wrapper = $('<div/>');
+        wrapper.addClass('image-wrapper');
+        wrapper.addClass('wrapper-' + slideInfo[i].identifier);
+        wrapper.append(slideInfo[i].image);
+        $('#preview-image').append(wrapper);
+    }
+}
+
+
+/*
+Below is how it *used* to be. Now (as of sprint 31) we let images be their
+full, natural width.
+
+This function sets the size of the preview image div to the tallest slide image.
+
+Images with natural dimensions less than width and height of the preview image
+div are displayed at their natural size.
+
+If the natural width of an image is less than the preview image div width (702px),
+it is displayed at its natural width, with a height less than or equal to the
+height of the preview image div.
+
+If the natural width of an image is greater than the preview image div
+width (702px), it is scaled to 100% of the width of the preview image
+div. If it's the tallest image, then it will fill the preview image
+div; otherwise, there will be white space above and below, so that it's
+centered vertically.
+*/
+function setPreviewSize() {
+    $('#preview-image').css({height: '250px'}); //some minimum height
+    var updateJSON = false;
+
+    /*
+    Get the natural widths and heights of all the images
+    */
+    $(slideInfo).each(function() {
+        var imageScale;
+        if (typeof this.scale !== 'undefined') {
+            imageScale = this.scale;
+        } else {
+            imageScale = 1;
+        }
+        var thisImage = this.image.src;
+        var slideIdentifier = this.identifier;
+        $(this.image).load((function(thisImageScale, thisImageSrc, thisSlideIdentifier) {
+            var newImage = new Image();
+            newImage.src = thisImageSrc;
+            var imgHeight = newImage.naturalHeight;
+            var imgWidth = newImage.naturalWidth;
+            var thisSlide = getSlide(thisSlideIdentifier);
+            if (thisSlide.imageWidth !== imgWidth) {
+                thisSlide.imageWidth = imgWidth;
+                updateJSON = true;
+            }
+            if (thisSlide.imageHeight !== imgHeight) {
+                thisSlide.imageHeight = imgHeight;
+                updateJSON = true;
+            }
+            if (updateJSON) sendData();
+            imgHeight = imgHeight * thisImageScale;
+            imgWidth = imgWidth * thisImageScale;
+            imageNaturalHeights.push(imgHeight);
+            imageNaturalWidths.push(imgWidth);
+        }(imageScale, thisImage, slideIdentifier)));
+        if (this.image && this.image.complete) {
+            $(this.image).load();
+        }
+    });
+
+    $('.workspace').imagesLoaded(function() {
+        var tallestImageHeight = 0;
+        var tallestImageWidth = 0;
+        /*
+        Figure out which is the tallest image. If there's more than one image
+        with a height equal to the height of the tallest image, then use the one with
+        greatest width.
+        */
+        for (var i = 0; i < imageNaturalHeights.length; i++) {
+            if ((imageNaturalHeights[i] > tallestImageHeight) ||
+                ((imageNaturalHeights[i] === tallestImageHeight) &&
+                    (imageNaturalWidths[i] > tallestImageWidth))) {
+                tallestImageHeight = imageNaturalHeights[i];
+                tallestImageWidth = imageNaturalWidths[i];
+            }
+        }
+        /*
+        By how much does the tallest image of the greatest width have to be scaled in
+        order to fit within current slide viewer? Use that scale factor to set the
+        height of the slider viewer. This will show that "maximum" image proportionally
+        and fill up the slide viewer.
+        */
+        var widestImage = Math.max.apply(null, imageNaturalWidths);
+        /*
+        Now (sprint 31) we're not going to limit the width of the canvas.
+        Previously it was limited to 702px.
+        */
+        //if (widgetSize === 'fitImages' && widestImage <= 702) {
+            //previewAreaWidth = widestImage;
+        //} else {
+        //    previewAreaWidth = 702;
+        //}
+        var imageScale = widestImage / tallestImageWidth;
+        var slideHeight;
+        if (imageScale <= 1) {
+            slideHeight = tallestImageHeight * imageScale;
+        } else {
+            slideHeight = tallestImageHeight;
+        }
+        $('#preview-container').css({"width": widestImage + 'px'});
+        $('#preview-image').css({
+            "width": widestImage + 'px',
+            "height": slideHeight + "px"
+        });
+        /*
+        Fit all the images within the slide viewer, which is now optimized for the
+        tallest image of the greatest width.
+        */
+        $('.image-wrapper .fullImage').each(function(index, el) {
+            var slideWidth = widestImage;
+            var userImageScale;
+            if (typeof slideInfo[index].scale !== 'undefined' &&
+                slideInfo[index].scale !== 1) {
+                userImageScale = slideInfo[index].scale;
+            } else {
+                userImageScale = 1;
+            }
+            var imgHeight = this.naturalHeight;
+            var imgWidth = this.naturalWidth;
+            imgHeight = imgHeight * userImageScale;
+            imgWidth = imgWidth * userImageScale;
+            var scale = slideWidth / imgWidth;
+            var newHeight = imgHeight * scale;
+            var newWidth = imgWidth * scale;
+            /*
+            If the image will fit in the slide viewer at its natural size,
+            then show it that way -- centered.
+            */
+            if (imgWidth <= slideWidth && imgHeight <= slideHeight) {
+                $(el).parent().css({
+                    "width": imgWidth + 'px',
+                    "height": imgHeight + 'px',
+                    "display": "inherit",
+                    "left": ((slideWidth - imgWidth) / 2) + 'px',
+                    "top": ((slideHeight - imgHeight) / 2) + 'px'
+                });
+                $(this).css({
+                    "width": imgWidth + 'px',
+                    "height": imgHeight + 'px',
+                    "display": "inherit",
+                    "margin-left": "auto",
+                    "margin-right": "auto"
+                });
+            /*
+            The image width fits but the height does not.
+            */
+            } else if (imgWidth <= slideWidth && newHeight > slideHeight) {
+                $(el).parent().css({
+                    "width": (slideHeight / imgHeight * imgWidth) + 'px',
+                    "height": slideHeight + "px",
+                    "display": "inherit",
+                    "left": '0px',
+                    "top": '0px'
+                });
+                $(this).css({
+                    "width": (slideHeight / imgHeight * imgWidth) + 'px',
+                    "height": slideHeight + "px",
+                    "display": "inherit",
+                    "margin-left": "auto",
+                    "margin-right": "auto"
+                });
+            /*
+            The behavior below has been changed as of sprint 31: display the
+            image at its full, natural width.
+
+            If the width of the scaled image is greater than the slider viewer width,
+            display it at 100% of the width of the viewer, with its height set
+            proportionally (preserving aspect ratio).
+            */
+            } else if (newWidth >= slideWidth && newHeight <= slideHeight) {
+                $(el).parent().css({
+                    "width": slideWidth + 'px',
+                    "height": newHeight + "px",
+                    "display": "inherit",
+                    "left": '0px',
+                    "top": ((slideHeight - newHeight) / 2) + 'px'
+                });
+                $(this).css({
+                    "width": slideWidth + 'px',
+                    "height": newHeight + "px",
+                    "display": "inherit",
+                    "margin-left": "auto",
+                    "margin-right": "auto"
+                });
+            /*
+            If the height of the image is greater than the slide viewer height, then
+            display the image as tall as possible. The proportionally scaled width of
+            the image is less than the width of the slider viewer, so it will fit --
+            and be positioned in the horizontal center, with white space on the left
+            and right.
+            */
+            } else if (newWidth <= slideWidth && newHeight > slideHeight) {
+                $(el).parent().css({
+                    "width":  (slideHeight / newHeight * newWidth) + "px",
+                    "height": slideHeight + "px",
+                    "display": "inherit",
+                    "left": ((slideWidth - (slideHeight / newHeight * newWidth)) / 2) + 'px',
+                    "top": '0px'
+                });
+                $(this).css({
+                    "width":  (slideHeight / newHeight * newWidth) + "px",
+                    "height": slideHeight + "px",
+                    "display": "inherit",
+                    "margin-left": "auto",
+                    "margin-right": "auto"
+                });
+            }
+        });
+    });
+}
+
+function setSliderTicks(){
+    var $slider =  $('#slider');
+    var max =  $slider.slider("option", "max");
+    var spacing;
+    if (max > 1){
+        spacing = 100 / (max - 1);
+    } else {
+        spacing = 50;
+    }
+    $slider.find('.ui-slider-tick-mark').remove();
+    for (var i = 0; i < max ; i++) {
+        $('<span class="ui-slider-tick-mark"></span>').css('left', (spacing * i) +  '%').appendTo($slider);
+    }
+}
+
+//--------------------------------------------------------------------
+// Slideline Navigation (slider)
+//--------------------------------------------------------------------
+
+function clearGhosts(start, end, animate) {
+    for (var i = 0; i < slideInfo.length; i++){
+        if (i === start || i === end) {
+            continue;
+        }
+        var wrapper = $('.wrapper-' + slideInfo[i].identifier);
+        if (animate) {
+            wrapper.animate({opacity: 0, duration: 370});
+        } else {
+            wrapper.css({opacity: 0});
+        }
+    }
+}
+
+function buildSlider() {
+    $("#slider").slider({
+        animate: true,
+        value: 1,
+        min: 1,
+        max: slideInfo.length,
+        step: 0.01,
+        slide: function (event, ui) {
+            var sliderPos = (ui.value); //ex: 1.25
+            var wholeSliderPos = Math.floor(sliderPos); //ex: 1
+            var decVal = sliderPos - wholeSliderPos; // ex: 1.25 - 1 (=.25)
+            var rangeStart = Math.floor(sliderPos);
+            var rangeEnd = Math.ceil(sliderPos);
+
+            if (lastStop !== rangeStart && lastStop !== rangeEnd && lastStop > 0 && lastStop <= slideInfo.length){
+                var old = $('.wrapper-' + slideInfo[lastStop - 1].identifier);
+                old.css('opacity', 0);
+            }
+
+            var currentImage = $('.wrapper-' + slideInfo[wholeSliderPos - 1].identifier);
+            var nextImage = (wholeSliderPos < slideInfo.length ? $('.wrapper-' + slideInfo[wholeSliderPos].identifier) : []);
+
+            if (ui.value > last) {
+                $(currentImage).css("opacity", 1 - decVal);
+                $(nextImage).css("opacity", decVal);
+            }
+
+            if (ui.value < last) {
+                $(currentImage).css("opacity", 1 - decVal);
+                $(nextImage).css("opacity", decVal);
+            }
+
+            if (Math.floor(last) !== wholeSliderPos) {
+                clearGhosts(rangeStart - 1, rangeEnd - 1);
+            }
+            last = ui.value;
+        },
+        stop: function( event, ui ) {
+            //addCKEditor();
+            var wholeVal = Math.round(ui.value);
+            $( "#slider" ).slider( 'value', wholeVal);
+
+            clearGhosts(wholeVal - 1, undefined, true);
+            var slideEntry = slideInfo[wholeVal - 1];
+            currentSlide = wholeVal;
+            selectSlide($('.nav-slide')[currentSlide - 1]);
+            var thumb = $('.nav-slide.slide-' + slideEntry.identifier);
+
+            var currentImage = $('.wrapper-' + slideEntry.identifier);
+            $(currentImage).stop(true,true).animate({opacity: 1, duration: 370});
+
+            $('.nav-slide').removeClass('active');
+            thumb.addClass('active');
+            last = wholeVal;
+            lastStop = wholeVal;
+        }
+
+    });
+}
+
+function initSlider() {
+    buildSlider();
+    setSliderTicks();
+}
+
+function onLoaded() {
+    initSlider();
+    loadMediaTab();
+
+    $('.panel').imagesLoaded(function() {
+        drawDeck();
+        setPreviewSize();
+
+        if (slideInfo.length > 0) {
+            currentSlide = 1;
+            showPreview();
+            $('.upload').hide();
+            selectSlide($('.nav-slide')[0]);
+        } else {
+            hidePreview();
+            $('.upload').show();
+        }
+    });
+}
+
+//--------------------------------------------------------------------
+// Click functions
+//--------------------------------------------------------------------
+
+function clickAdd() {
+    $('#image-uploader').click();
+}
+
+function clickReplace(id) {
+    $('#image-replacer').data('id', id);
+    $('#image-replacer').click();
+}
+
+function deleteSlide(ident) {
+    var deleted = $('li.slide-' + ident)[0];
+    var ind = getIndex(ident);
+    // CAUTION: The above line is costly if there are many slides.
+    if (ind > -1){
+        $(slideInfo[ind].image).closest('.image-wrapper').remove();
+        slideInfo.splice(ind, 1);
+        sendData();
+    }
+    if (deleted){
+        //remove from navigation
+        var thumbInd = $(deleted).attr('data-index');
+        var thumbs = $('.nav-slide');
+        var next = thumbs[thumbInd];
+        var prev = thumbs[thumbInd-2];
+        $(deleted).animate({opacity: 0}, {duration: 50}).slideUp(100, function() {
+            deleted.parentNode.removeChild(deleted);
+            $('#slider').slider('option', 'max', slideInfo.length);
+
+
+            var deleteActive = (thumbInd === currentSlide); //deleteActive must be recorded before renumbering!
+            renumberThumbnails();
+            setSliderTicks();
+
+            //Below code switches focus if current slide was deleted.
+            if (deleteActive){
+                if (next) {
+                    selectSlide(next);
+                } else if (prev) {
+                    selectSlide(prev);
+                } else {
+                    toggleWorkspace();
+                }
+            } else {
+                $('#slider').slider('value', currentSlide);
+            }
+            if (slideInfo.length === 0) {
+                currentSlide = 0;
+            }
+            setPreviewSize();
+
+
+        });
+    }
+}
+
+function confirmDelete(ident) {
+    var overlay = $('.overlay-mask');
+    var dialog = $('.dialog-box');
+    dialog.show();
+    overlay.addClass('overlay-mask-visible');
+    var confirm = $('.confirmDelete');
+    var cancel = $('.cancelDelete');
+
+    confirm.on('click', function() {
+        deleteSlide(ident);
+        $(this).off('click');
+        $('.confirmation').hide();
+        $('.overlay-mask').removeClass('overlay-mask-visible');
+    });
+    cancel.on('click', function() {
+        $(confirm).off('click');
+    });
+}
+
+function clickDelete(ident) {
+    if (askConfirm){
+        confirmDelete(ident);
+    } else {
+        deleteSlide(ident);
+    }
+}
+
+//--------------------------------------------------------------------
+// Slide manipulation functions
+//--------------------------------------------------------------------
+
+function addSlide() {
+    var slideNum = slideInfo.length + 1;
+    var id = generateId();
+    var image = new Image();
+    image.src = 'img/blank.svg';
+    image.className = 'fullImage';
+    var newSlide = {
+            image: image,
+            originalIndex: slideNum,
+            imgsrc: 'img/blank.svg',
+            identifier: id,
+            label: '',
+            caption: '',
+            slideShortDescription: '',
+            slideLongDescription: ''
+    };
+    slideInfo.push(newSlide);
+
+    sendData();
+
+    loadMediaTab();
+    $('#preview-image').empty();
+    drawDeck();
+    $('#slider').slider('option', 'max', slideInfo.length);
+    setSliderTicks();
+
+    setPreviewSize();
+    var activeIndex = $('.nav-slide').length;
+    if (slideInfo.length > 0) {
+        currentSlide = parseInt(activeIndex, 10);
+        showPreview();
+        $('.upload').hide();
+        setTimeout(function() {
+            selectSlide($('.nav-slide.slide-' + currentSlide));
+        }, 100);
+    } else {
+        hidePreview();
+        $('.upload').show();
+    }
+
+}
+
+function duplicateSlide(ident) {
+    var activeIndex = $('.nav-slide.active').closest('li').attr('data-index');
+    var id = generateId();
+    // Make a "deep" copy of the source slide
+    var newSlide = $.extend(true, {}, getSlide(ident));
+
+    var image = new Image();
+    image.src = newSlide.imgsrc;
+    image.className = 'fullImage';
+    newSlide.image = image;
+    newSlide.originalIndex = parseInt(activeIndex, 10) + 1;
+    newSlide.identifier = id;
+    for (var i = 0; i < slideInfo.length; i++) {
+        if (slideInfo[i].originalIndex >= parseInt(activeIndex, 10) + 1) {
+            slideInfo[i].originalIndex = parseInt(slideInfo[i].originalIndex, 10) + 1;
+        }
+    }
+
+    slideInfo.splice(parseInt(activeIndex, 10), 0, newSlide);
+
+    sendData();
+
+    loadMediaTab();
+    $('#preview-image').empty();
+    drawDeck();
+    $('#slider').slider('option', 'max', slideInfo.length);
+    setSliderTicks();
+
+    setPreviewSize();
+    if (slideInfo.length > 0) {
+        currentSlide = parseInt(activeIndex, 10) + 1;
+        showPreview();
+        $('.upload').hide();
+        setTimeout(function() {
+            selectSlide($('.nav-slide')[parseInt(activeIndex, 10)]);
+        }, 1);
+    } else {
+        hidePreview();
+        $('.upload').show();
+    }
+}
+
+function addOverlay() {
+    var id = currentSlide - 1;
+    var currentOverlay;
+    if (slideInfo[id].hasOwnProperty('overlays')) {
+        currentOverlay = slideInfo[id].overlays.length;
+    } else {
+        slideInfo[id].overlays = [];
+        currentOverlay = 0;
+    }
+    slideInfo[id].overlays[currentOverlay] = {
+        "overlayContent": "",
+        "overlayPositionTop": 5,
+        "overlayPositionLeft": 2
+    };
+    displayOverlayEditors(currentSlide);
+}
+
+function deleteOverlay(id) {
+    // Remove overlay id of the current slide, then call selectSlide(which) to redraw
+    slideInfo[currentSlide - 1].overlays.splice(id, 1);
+    sendData();
+    selectSlide($('.nav-slide')[currentSlide - 1]);
+}
+
+//--------------------------------------------------------------------
+// Caption/label functions
+//--------------------------------------------------------------------
+
+function autoSize(elem, animate) {
+    /* V1: This is the simple, less expensive way. It's not smooth, though,
+     * and it goes back to textarea default size when you expand and then
+     * shrink down to one line or less. This looks kind of weird because it's not the same
+     * size as our initial size (doesn't match the label text field height).
+     */
+    // this.style.height = 'auto';
+    // this.style.height = (this.scrollHeight) + 'px';
+
+
+    /* V2: This method uses a hidden copy for shrinking when text is deleted.
+     * It's an expensive thing to do, but we can do smooth animation of the resizing
+     * and it can go back to the height we set initially when shrinking down to one line
+     * or less.
+     */
+    var elemHeight = $(elem).outerHeight(true);
+    if (elem.scrollHeight >= 150) { // 150px = max height before scrolling is activated
+        elem.style.overflow = 'auto';
+        if (animate){
+            $(elem).animate({height: '150px'}, {duration: 200, easing: 'linear', queue: false});
+        } else {
+            elem.style.height = '150px';
+        }
+        return;
+    }
+    var copy = $(elem);
+    copy.html(elem.html);
+    copy.addClass('item-clone');
+    $(elem.parentNode).append(copy[0]);
+    var h = copy[0].scrollHeight;
+    if (h < elemHeight) {
+        h = elemHeight;
+    }
+    if (animate) {
+        $(elem).animate({height: h.toString() + 'px'}, {duration: 200, easing: 'linear', queue: false});
+    } else {
+        elem.style.height = h.toString() + 'px';
+    }
+    copy.remove();
+}
+
+//--------------------------------------------------------------------
+// Drag-and-drop upload
+//--------------------------------------------------------------------
+// Following tutorial at http://www.sitepoint.com/html5-file-drag-and-drop/
+
+function dragHover(e) {
+    e.stopPropagation();
+    e.preventDefault();
+    if (e.type === 'dragover') {
+        $(e.target).addClass('hovering');
+        $('.dragText').addClass('ready-text');
+        $('.dragText').text('Ready to Drop');
+        $('.upload-instructions .details').text('Drop your files at any time.');
+    } else {
+        $(e.target).removeClass('hovering');
+        $('.dragText').removeClass('ready-text');
+        $('.dragText').text('Click to Upload Images');
+        $('.upload-instructions .details').html('or drag and drop files from your desktop.<p/>* All images should have the same aspect ratio.');
+    }
+}
+
+//--------------------------------------------------------------------
+// Upload-related functions
+//--------------------------------------------------------------------
+
+function uploadHandler(e) {
+    var files = e.target.files || e.dataTransfer.files;
+    for (var i = 0; i < files.length; i++) {
+        var file = files[i];
+        var slideTemp = $('#slide-partial').html().replace(/<\!\[CDATA\[|\]\]>/g, '');
+        var singleSlide = Handlebars.compile(slideTemp);
+        var slideNum = slideInfo.length+1;
+        var id = generateId();
+        slideInfo.push({
+            image: undefined,
+            imgsrc: 'img/blank.svg',
+            label: '',
+            caption: '',
+            originalIndex: slideNum,
+            identifier: id,
+            slideShortDescription: '',
+            slideLongDescription: ''
+        });
+        var newSlide = singleSlide({
+            originalIndex: (slideInfo.length),
+            imgsrc: 'img/blank.svg',
+            identifier: id
+        });
+        $('.sortableThumbs').append(newSlide);
+        var newWrapper = $('<div/>');
+        newWrapper.addClass('image-wrapper wrapper-' + id);
+        newWrapper.append('<span class="load-' + id + ' load-container"><span class="load-progress"></span></span>');
+        $('#preview-image').append(newWrapper);
+        $('li.slide-' + id + ' .nav-slide').append('<span class="load-' + id + ' load-container"><span class="load-progress"></span></span>');
+
+        $('#slider').slider('option', 'max', slideInfo.length);
+        setSliderTicks();
+
+        window.parent.postMessage({
+            type: 'asset',
+            method: 'image',
+            payload: {
+                data: file,
+                id: id,
+                progress: true
+            }
+        }, '*');
+    }
+}
+
+function fileDrop(e) {
+    dragHover(e);
+    uploadHandler(e);
+}
+
+function dragInit() {
+    // Initialize drag upload functionality
+    var xhr = new XMLHttpRequest();
+    if (xhr.upload) {
+        var fileDrag = $('.drag-area')[0];
+        fileDrag.addEventListener('dragover', dragHover, false);
+        fileDrag.addEventListener('dragleave', dragHover, false);
+        fileDrag.addEventListener('drop', fileDrop, false);
+
+        $('.upload-instructions .details').show();
+    }
+}
+
+window.addEventListener('message', function(evt){
+    var data = evt.data;
+    var id;
+    if (data.type === 'asset' && data.method === 'image' && data.payload){
+        var payload = data.payload;
+        if (payload.progress === 1){
+            if (payload.path){
+                var imgsrc = payload.path;
+                id = payload.id;
+                var img = new Image();
+                img.src = imgsrc;
+                img.className = 'fullImage';
+                var slideEntry = getSlide(id);
+                if (!slideEntry) {
+                    //This means the slide was deleted before image finished uploading.
+                    return;
+                }
+
+                //update thumbnail
+                var thumb = $('li.slide-' + id + ' .actual-image');
+                $('.load-' + id + ' .load-progress').width('100%');
+                thumb.attr('src', imgsrc);
+                thumb.imagesLoaded(function() {
+                //thumb.load(function() {
+                    $('.load-' + id).fadeOut(400, function() {
+                        $('.load-' + id).remove();
+                        thumb.fadeIn(400);
+
+                        slideEntry.image = img;
+                        slideEntry.imgsrc = imgsrc;
+                        sendData();
+                        var imgWrapper = $('.wrapper-' + id);
+                        imgWrapper.css({opacity: 0});
+                        imgWrapper.empty().append(slideEntry.image);
+                        imgWrapper.animate({opacity: 1, duration: 400});
+                        displayOverlays(slideEntry.identifier);
+                        orientThumbnails();
+                        setPreviewSize();
+                        selectSlide($('.nav-slide.slide-' + id));
+                        //MathJax.Hub.Queue(["Typeset",MathJax.Hub]);
+                        myMathJaxTypeset();
+                    });
+                    $(this).off('load');
+                });
+
+                renumberThumbnails();
+
+            } else {
+                // This means the upload failed.
+                // Should we alert failure to load as log message?
+                // Clean up thumbnails (remove failed uploads)?
+                // What should be done if it's a replacement?
+                console.log('upload failed.');
+            }
+        } else { //not done, making progress
+            id = payload.id;
+            var loadPercent = payload.progress * 100;
+            $('.load-' + id + ' .load-progress').delay(1500).width(loadPercent + '%');
+            if (currentSlide === 0){ //if going from empty to 1+ slide, set first slide active
+                selectSlide($('.nav-slide')[0]);
+            }
+        }
+    }
+});
+
+
+//--------------------------------------------------------------------
+// On-load functions - listeners, etc.
+//--------------------------------------------------------------------
+
+// Called after loading the JSON contents, for instance
+window.addEventListener('load', function() {
+    if (window.File && window.FileList && window.FileReader){
+        dragInit();
+    }
+
+    $('#extraAccessibilityInfo').on('change', ':input', function(event) {
+        var ident = $(this).attr('data-id');
+        var slideEntry = getSlide(ident);
+        slideEntry[$(this).attr('id')] = $(this).val();
+        sendData();
+    });
+
+    $('input[type="radio"]').on('change', function(e) {
+        currentLayout = e.target.value;
+        //alert("clicked" + currentLayout);
+    });
+
+    $('.cancelDelete').click(function(){
+        $('.confirmation').hide();
+        $('.overlay-mask').removeClass('overlay-mask-visible');
+    });
+
+    $('#showDelConf').change(function() {
+        if ($(this).is(':checked')){
+            askConfirm = false;
+        } else {
+            askConfirm = true;
+        }
+        sendData();
+    });
+
+    $('body').on('click', '.add-image', function() {
+        clickAdd();
+    });
+
+    $('body').on('click', '.add-slide', function() {
+        addSlide();
+    });
+
+    $('.add-overlay').on('click', function() {
+        addOverlay();
+    });
+
+    $('.btn-delete').on('click', function() {
+        clickDelete(slideInfo[currentSlide-1].identifier);
+        return false;
+    });
+
+    $('body').on('click', '.btn-trash', function(event) {
+        var identifier = $(event.currentTarget).attr('data-id');
+        clickDelete(identifier);
+        return false;
+    });
+
+    $('.btn-replace').on('click', function() {
+        clickReplace(slideInfo[currentSlide-1].identifier);
+        return false;
+    });
+
+    $('.btn-duplicate').on('click', function() {
+        duplicateSlide(slideInfo[currentSlide-1].identifier);
+        return false;
+    });
+
+    $('.drag-area').on('click', function() {
+        clickAdd();
+    });
+
+    $('.slide-caption').on('input paste', function() {
+        autoSize(this, true);
+    });
+
+    $('.panel').on('click', '.icon-trash', function() {
+        clickDelete( $(this).closest('li').data('id') );
+        return false;
+    });
+
+    $('.panel').on('click', '.nav-slide', function() {
+        selectSlide(this);
+    });
+
+    $('#image-uploader').change(function(e){
+        uploadHandler(e);
+        $(this).val('');
+    });
+
+    $('#image-replacer').change(function(){
+        var file = document.getElementById('image-replacer').files[0];
+        var id = $(this).data('id');
+        var slideInd = getIndex(id);
+        //TODO: THIS MIGHT NEED TO BE CHANGED - CHECK
+        slideInfo[slideInd].image = undefined;
+
+        // fade out thumbnail
+        $('li.slide-' + id + ' .actual-image').fadeOut(400);
+        // add loader spans
+        $('li.slide-' + id + ' .nav-slide').append('<span class="load-' + id + ' load-container"><span class="load-progress"></span></span>');
+        $('.wrapper-' + id).empty().append('<span class="load-' + id + ' load-container"><span class="load-progress"></span></span>');
+        $(this).val('');
+
+        window.parent.postMessage({
+            type: 'asset',
+            method: 'image',
+            payload: {
+                data: file,
+                id: id,
+                progress: true
+            }
+        }, '*');
+
+    });
+
+    $('.marker').on("click", function(){
+        if($(this).hasClass('expanded')){
+            $('#settings').hide();
+            $(this).removeClass('expanded').addClass('contracted');
+        }
+        else if($(this).hasClass('contracted')){
+            $('#settings').show();
+            $(this).removeClass('contracted').addClass('expanded');
+        }
+    });
+
+    $('#settings :input').on("change", function(e) {
+        var currentInput = $(e.currentTarget).attr("name");
+        switch (currentInput) {
+            case "widgetSize":
+                widgetSize = $(e.currentTarget).val();
+                setPreviewSize();
+                break;
+            case "orientation":
+                orientation = $(e.currentTarget).val();
+                break;
+            case "scale":
+                scale = convertSliderSize($(e.currentTarget).val());
+                break;
+        }
+        sendData();
+    });
+
+    $('.content').delegate('.overlayEdit .icon-trash', 'click', function(e) {
+        deleteOverlay($(e.currentTarget).closest('div').attr('data-id'));
+        return false;
+    });
+
+    $('.content').delegate('#overlays input', "keyup change", function(e) {
+        var currentInputName = $(e.currentTarget).attr('data-name');
+        if (currentInputName !== 'overlayContent') {
+            var currentInputID = $(e.currentTarget).attr('data-id');
+            var newData = $(e.currentTarget).val();
+            var oldData = slideInfo[currentSlide - 1].overlays[parseInt(currentInputID, 10)][currentInputName];
+            if (newData !== oldData) {
+                slideInfo[currentSlide - 1].overlays[parseInt(currentInputID, 10)][currentInputName] = newData;
+                displayOverlays(slideInfo[currentSlide - 1].identifier);
+                sendData();
+            }
+        }
+    });
+
+    /*
+    Support dragging within a CKEditor editor instance
+    */
+    $('.content').on('dragend', '.ckeditor', function(e) {
+        var editor = $(e.currentTarget).ckeditorGet();
+        var data = editor.getData();
+        var el = editor.element.$;
+        var dataName = $(el).attr('data-name');
+        var oldData;
+        if (dataName === 'label' || dataName === 'caption') {
+            oldData = slideInfo[currentSlide - 1][dataName];
+            if (data !== oldData) {
+                slideInfo[currentSlide - 1][dataName] = data;
+                sendData();
+            }
+        } else if (dataName === 'overlayContent') {
+            var dataID = parseInt($(el).attr('data-id'), 10);
+            oldData = slideInfo[currentSlide - 1].overlays[dataID][dataName];
+            if (data !== oldData) {
+                slideInfo[currentSlide - 1].overlays[dataID][dataName] = data;
+                displayOverlays(slideInfo[currentSlide - 1].identifier);
+                //MathJax.Hub.Queue(["Typeset", MathJax.Hub]);
+                myMathJaxTypeset();
+                sendData();
+            }
+        } else {
+            alert('Shouldn\'t be here.');
+        }
+    });
+
+    $('.content').on('keyup', '#image-settings input', function(e) {
+        var id = $(e.currentTarget).attr('data-id');
+        $('#image-settings button[data-id="' + id + '"]').show();
+    });
+
+    $('.content').on('click', '#image-settings button', function(e) {
+
+        var id = $(e.currentTarget).attr('data-id');
+        var slideEntry = getSlide(id);
+        var currentInputName = $(e.currentTarget).attr('data-name');
+        if (currentInputName === 'imageScale') {
+            var newValue = $('#image-settings input[data-id="' + id + '"]').val();
+            if (newValue > 0 && newValue <= 100) {
+                var newImageScale = newValue / 100;
+                slideEntry.scale = newImageScale;
+                imageNaturalWidths = [];
+                imageNaturalHeights = [];
+                sendData();
+                $('#preview-image').empty();
+                drawDeck();
+                setPreviewSize();
+                selectSlide($('.nav-slide.slide-' + id));
+                displayOverlays(slideEntry.identifier);
+            } else if (newValue > 100) {
+                $('#imageScaleMax').text('Maximum: 100%');
+            } else {
+                $('#imageScaleMax').text('');
+            }
+        }
+    });
+
+});
+
+$(window).resize(function(){
+    setPreviewSize();
+    var panelContentWidth = 315;
+    // .panel--active .content padding left, right = 28px
+    var panelSidePadding = 28 * 2;
+    var buttonMenuWidth = 70;
+    var windowWidth = $(window).width();
+    var previewEditAreaWidth = windowWidth - panelContentWidth - panelSidePadding - buttonMenuWidth;
+
+    $('#preview-container').css({"width": (windowWidth - panelContentWidth) + 'px'});
+    $('#preview-area').css({
+        //'width': ($(window).width() - 315 - 40 - 100) + 'px',
+        "width": previewEditAreaWidth + 'px',
+        "overflow": "scroll"
+    });
+    $('#edit-area').css({
+        'width': previewEditAreaWidth + 'px',
+        'margin-left': '76px'
+    });
+});
+
+//--------------------------------------------------------------------
+// DOM on-load functions
+//--------------------------------------------------------------------
+
+//window.addEventListener('DOMContentLoaded', function(){
+$(document).ready(function() {
+    $(document).on('contentChanged', function() {
+        imagesLoaded(document.body, onLoaded);
+    });
+
+
+    Handlebars.registerPartial('slide', $('#slide-partial').html().replace(/<\!\[CDATA\[|\]\]>/g, ''));
+
+    CKEDITOR.disableAutoInline = true;
+
+    $('.workspace').on('scroll', function(e) {
+        var editor = CKEDITOR.currentInstance;
+        if (editor) {
+            editor.focusManager.blur('noDelay');
+            $('.ckeditor').blur();
+        }
+    });
+
+
+    initSlideInfo();
+
+    blankImage.src = 'img/blank.svg';
+    $(blankImage).addClass('load-placeholder');
+    $(window).trigger('resize');
+});

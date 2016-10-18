@@ -1,1 +1,252 @@
-<!DOCTYPE html><html xmlns=http://www.w3.org/1999/xhtml><head><meta http-equiv=Content-Type content="text/html; charset=UTF-8"><title>Slideline Plus</title><meta name=mhe:build content=widget><meta name=mhe:name content=slideline-plus><meta name=mhe:version content=version:1.0.6><meta name=mhe:uuid content=not-authored><link rel=stylesheet href=../../modules/mhe.acme-common/v0/css/mhe-base-widget.min.css><link href=css/editor.css rel=stylesheet type=text/css><link href=css/sl-editor.css rel=stylesheet type=text/css><script src=../shared/inklingwidget.js type=text/javascript></script><script src=//ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js type=text/javascript></script><script src=js/handlebars.js type=text/javascript></script><script src=//ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js></script><script src=../shared/imagesloaded/imagesloaded.pkgd.min.js type=text/javascript></script><script src=../shared/ckeditor-mhe/ckeditor.js type=text/javascript></script><script src=../shared/ckeditor-mhe/adapters/jquery.js type=text/javascript></script><script src=../shared/mhe/mhe-widget.js type=text/javascript></script><script src=js/shared.js type=text/javascript></script><script src=js/editor.js type=text/javascript></script><script src=js/sl-editor.js type=text/javascript></script><script type=text/x-mathjax-config>MathJax.Hub.Config({ extensions: ["tex2jax.js"], MathML: { extensions: ["mml3.js"] }, TeX: { extensions: ["cancel.js", "enclose.js"] }, jax: ["input/TeX","output/HTML-CSS"], tex2jax: { inlineMath: [["\\(","\\)"]], ignoreClass: "ckeditor" }, elements: ['preview-area'] });</script><script type=text/javascript src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><script id=slide-partial type=text/handlebars-template><![CDATA[ <!-- comment --> <li data-index="{{originalIndex}}" data-id="{{identifier}}" class="slide-item slide-{{identifier}}" > <div class="group"> <div class="nav-slide slide-{{identifier}}"> <img class="actual-image image{{originalIndex}} slide-{{identifier}}" src="{{imgsrc}}" data-unmodified-src="{{imgsrc}}"/> </div> <button class="button btn-trash" type="button" data-id="{{identifier}}"></button> </div> </li> ]]></script><script id=slidelist-template type=text/x-handlebars-template><![CDATA[ <!-- comment --> <div id="slides"> <ol class="sortableThumbs"> {{#each slideData}} {{> slide}} {{/each}} </ol> <div class="button-menu horz-center add-image"> <span><button class="button btn-add" type="button"></button>Add Image Slide</span> </div> <br/><ul class="details"><li>* All images should have the same aspect ratio.</li></ul> <div class="button-menu horz-center add-slide"> <span><button class="button btn-add" type="button"></button>Add Blank Slide</span> </div> </div> ]]></script><script id=settings-template type=text/x-handlebars-template><![CDATA[ <!-- comment --> <p class="hanging-indent"><label class="checkbox"><input type="checkbox" name="autoplay"><span class="checkbox-label">Auto Play</span></label><br/> <span class="details">Slideshow will automatically play when page is loaded</span></p> <p class="hanging-indent"><label class="checkbox"><input type="checkbox" name="showNav"><span class="checkbox-label">Show Navigation Controls</span></label><br/> <span class="details">Show the next and previous image controls</span><br/> <div class="select-wrapper"> <select class="select-menu" name="navType"> <option value="dots">Dots only</option> <option value="arrows">Arrows only</option> <option value="dotsAndArrows">Dots &amp; Arrows</option> </select> </div> </p> ]]></script><script id=label-temp type=text/x-handlebars-template><![CDATA[ <!-- comment --> <span class="label">{{label}}</span> ]]></script><script id=caption-temp type=text/x-handlebars-template><![CDATA[ <!-- comment --> <div class="caption"> <p>{{caption}}</p> </div> ]]></script></head><body class="widget widget-slideline-plus widget-mode-editor editor panel--active" style="overflow: visible;"><div id=wrapper style="white-space: nowrap;"><div class=panel style="overflow-y: auto; white-space: normal;"><ul class=panel-menu><li><a class=panel-tab href=#tabs-1>States</a></li><li class=menu-underline style="width: 63px;"></li></ul><div class=panel-content style="height: 65%;"><div id=tabs-1><div class="group mediaContent"></div></div></div><ul class=panel-menu><li><span class="marker expanded"></span><a id=settings-tab class=panel-tab href=#tabs-1 style="margin-left: 1.5em;">Settings</a></li><li class=menu-underline style="width: 63px;"></li></ul><div id=settings class=panel-content><label for=widgetSize>Widget Size</label><select name=widgetSize id=widgetSize><option value=100%>Fit Page Width</option><option value=fitImages>Fit Images</option></select><label for=orientation>Slider Orientation</label><select name=orientation id=orientation><option value=horizontal>Horizontal</option><option value=vertical>Vertical&nbsp;(Top Down)</option><option value=vertical-up>Vertical&nbsp;(Bottom Up)</option></select><label for=scale>Slider Size (10 to 100)</label> <input type=text name=scale id=scale style="width: 70px;"><span>%</span><br><div id=radio_menu></div></div></div><div class=workspace><div class="group preview"><div class=content style="white-space: nowrap;"><menu class="button-menu vert-right"><button class="button btn-duplicate" name=Duplicate type=button></button> <button class="button btn-replace" name=Replace type=button></button> <button class="button btn-delete" name=Delete type=button></button><div id=image-settings style="min-width: 70px;"></div></menu><div id=preview-area><div id=preview-container><div id=preview-image></div></div></div><div id=edit-area><div class=label-edit><label for=item-label>Label</label><div class=itemwrap><div class="ckeditor item-label item-text" id=item-label data-name=label contenteditable=true></div></div></div><div class=caption-edit><label for=item-caption>Caption</label><div class=itemwrap><div class="ckeditor item-caption item-text" data-name=caption id=item-caption contenteditable=true></div></div></div><div id=slide_info><div id=slide_nav><div id=slider></div></div></div><div><div class="button-menu horz-center add-overlay"><span><button class="button btn-add" type=button></button> Add Overlay</span></div></div><div id=overlays></div><div id=extraAccessibilityInfo></div></div></div></div><div class=upload><div class=drag-area><div class=upload-instructions><div id=upload-image-icon></div><span class=dragText>Click to Upload Images</span><div class=details>or drag and drop files from your desktop.<p>* All images should have the same aspect ratio.</p></div></div></div><input id=image-uploader type=file multiple accept="image/jpg, image/jpeg, image/png, image/svg"> <input id=image-replacer type=file accept="image/jpg, image/jpeg, image/png, image/svg"></div></div></div><div class=overlay-mask></div><div class="dialog-box confirmation"><div class=dialogText><h4>Are you sure?</h4><p>You cannot undo this action.</p></div><div class=dialogButtons><div class="button-div confirmDelete clickable"><div class=button-text>Remove</div></div><br><span class="cancelDelete clickable">Cancel</span></div><div class=show-again><input type=checkbox id=showDelConf class=custom-checkbox><div class=fake-checkbox></div>Don't show this message again.</div></div></body></html>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <title>Slideline Plus</title>
+
+        <!-- Custom meta tags to identify this widget -->
+        <meta name="mhe:build" content="widget"/>
+        <meta name="mhe:name" content="slideline-plus"/>
+        <meta name="mhe:version" content="version:1.0.6"/>
+        <meta name="mhe:uuid" content="not-authored"/>
+
+        <!-- Common Widget CSS -->
+        <link rel="stylesheet" href="../../modules/mhe.acme-common/v0/css/mhe-base-widget.min.css"/>
+
+        <!-- Editor specific styles -->
+        <link href="css/editor.css" rel="stylesheet" type="text/css"/>
+        <link href="css/sl-editor.css" rel="stylesheet" type="text/css"/>
+
+        <!-- Basic widget javascript -->
+        <script src="../shared/inklingwidget.js" type="text/javascript"></script>
+
+        <!-- Required javascript libraries. -->
+        <!-- jQuery via CDN -->
+        <script src="//ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js" type="text/javascript"></script>
+        <script src="js/handlebars.js" type="text/javascript"></script>
+        <!-- jQuery UI via CDN -->
+        <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>
+        <script src="../shared/imagesloaded/imagesloaded.pkgd.min.js" type="text/javascript"></script>
+        <script src="../shared/ckeditor-mhe/ckeditor.js" type="text/javascript"></script>
+        <script src="../shared/ckeditor-mhe/adapters/jquery.js" type="text/javascript"></script>
+
+        <!-- MHE widget JavaScript -->
+        <script src="../shared/mhe/mhe-widget.js" type="text/javascript"></script>
+
+        <!-- Editor specific javascript -->
+        <script src="js/shared.js" type="text/javascript"></script>
+        <script src="js/editor.js" type="text/javascript"></script>
+        <script src="js/sl-editor.js" type="text/javascript"></script>
+
+        <script type="text/x-mathjax-config">
+        MathJax.Hub.Config({
+            extensions: ["tex2jax.js"],
+            MathML: {
+                extensions: ["mml3.js"]
+            },
+            TeX: { extensions: ["cancel.js", "enclose.js"] },
+            jax: ["input/TeX","output/HTML-CSS"],
+            tex2jax: {
+                inlineMath: [["\\(","\\)"]],
+                ignoreClass: "ckeditor"
+            },
+            elements: ['preview-area']
+        });
+        </script>
+
+        <script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+        <script id="slide-partial" type="text/handlebars-template">
+            <![CDATA[
+            <!-- comment -->
+            <li data-index="{{originalIndex}}" data-id="{{identifier}}" class="slide-item slide-{{identifier}}" >
+                <div class="group">
+                    <div class="nav-slide slide-{{identifier}}">
+                        <img class="actual-image image{{originalIndex}} slide-{{identifier}}" src="{{imgsrc}}" data-unmodified-src="{{imgsrc}}"/>
+                    </div>
+                    <button class="button btn-trash" type="button" data-id="{{identifier}}"></button>
+                </div>
+            </li>
+            ]]>
+        </script>
+
+
+        <script id="slidelist-template" type="text/x-handlebars-template">
+            <![CDATA[
+            <!-- comment -->
+            <div id="slides">
+                <ol class="sortableThumbs">
+                {{#each slideData}}
+                    {{> slide}}
+                {{/each}}
+                </ol>
+                <div class="button-menu horz-center add-image">
+                    <span><button class="button btn-add" type="button"></button>Add Image Slide</span>
+                </div>
+                <br/><ul class="details"><li>* All images should have the same aspect ratio.</li></ul>
+                <div class="button-menu horz-center add-slide">
+                    <span><button class="button btn-add" type="button"></button>Add Blank Slide</span>
+                </div>
+            </div>
+            ]]>
+        </script>
+
+        <script id="settings-template" type="text/x-handlebars-template">
+            <![CDATA[
+            <!-- comment -->
+            <p class="hanging-indent"><label class="checkbox"><input type="checkbox" name="autoplay"><span class="checkbox-label">Auto Play</span></label><br/>
+            <span class="details">Slideshow will automatically play when page is loaded</span></p>
+            <p class="hanging-indent"><label class="checkbox"><input type="checkbox" name="showNav"><span class="checkbox-label">Show Navigation Controls</span></label><br/>
+            <span class="details">Show the next and previous image controls</span><br/>
+            <div class="select-wrapper">
+                <select class="select-menu" name="navType">
+                    <option value="dots">Dots only</option>
+                    <option value="arrows">Arrows only</option>
+                    <option value="dotsAndArrows">Dots &amp; Arrows</option>
+                </select>
+            </div>
+            </p>
+            ]]>
+        </script>
+
+        <!-- Slideline templates -->
+        <script id="label-temp" type="text/x-handlebars-template">
+            <![CDATA[
+            <!-- comment -->
+            <span class="label">{{label}}</span>
+            ]]>
+        </script>
+
+        <script id="caption-temp" type="text/x-handlebars-template">
+            <![CDATA[
+            <!-- comment -->
+            <div class="caption">
+                <p>{{caption}}</p>
+            </div>
+            ]]>
+        </script>
+
+    </head>
+<!-- 2016-09-22: add overflow: visible to body class because widget-mode-editor class doesn't yet exist in common stylesheet -->
+    <body class="widget widget-slideline-plus widget-mode-editor editor panel--active" style="overflow: visible;">
+        <div id="wrapper" style="white-space: nowrap;">
+            <div class="panel" style="overflow-y: auto; white-space: normal;">
+                <ul class="panel-menu">
+                    <li><a class="panel-tab" href="#tabs-1">States</a></li>
+                    <li class="menu-underline" style="width: 63px;"></li>
+                </ul>
+                <div class="panel-content" style="height: 65%;">
+                    <div id="tabs-1">
+                        <div class="group mediaContent"></div>
+                    </div>
+                </div>
+                <ul class="panel-menu">
+                    <li><span class="marker expanded"></span><a id="settings-tab" class="panel-tab" href="#tabs-1" style="margin-left: 1.5em;">Settings</a></li>
+                    <li class="menu-underline" style="width: 63px;"></li>
+                </ul>
+                <div id="settings" class="panel-content">
+                    <label for="widgetSize">Widget Size</label>
+                    <select name="widgetSize" id="widgetSize">
+                        <option value="100%">Fit Page Width</option>
+                        <option value="fitImages">Fit Images</option>
+                    </select>
+                    <label for="orientation">Slider Orientation</label>
+                    <select name="orientation" id="orientation">
+                        <option value="horizontal">Horizontal</option>
+                        <option value="vertical">Vertical&nbsp;(Top Down)</option>
+                        <option value="vertical-up">Vertical&nbsp;(Bottom Up)</option>
+                    </select>
+                    <label for="scale">Slider Size (10 to 100)</label>
+                    <input type="text" name="scale" id="scale" style="width: 70px;" /><span>%</span>
+                    <br/>
+
+                <div id="radio_menu">
+                </div>
+
+
+                </div>
+            </div>
+
+            <div class="workspace">
+                <div class="group preview">
+                    <div class="content" style="white-space: nowrap;">
+                        <menu class="button-menu vert-right">
+                            <button class="button btn-duplicate" name="Duplicate" type="button"></button>
+                            <button class="button btn-replace" name="Replace" type="button"></button>
+                            <button class="button btn-delete" name="Delete" type="button"></button>
+                            <div id="image-settings" style="min-width: 70px;"></div>
+                        </menu>
+                        <div id="preview-area">
+                            <div id="preview-container">
+                                <div id="preview-image"></div>
+                            </div>
+                        </div>
+                        <div id="edit-area">
+                            <div class="label-edit">
+                                <label for="item-label">Label</label>
+                                <div class="itemwrap">
+                                    <div class="ckeditor item-label item-text" id="item-label" data-name="label" contenteditable="true"></div>
+                                </div>
+                            </div>
+                            <div class="caption-edit">
+                                <label for="item-caption">Caption</label>
+                                <div class="itemwrap">
+                                    <div class="ckeditor item-caption item-text" data-name="caption" id="item-caption" contenteditable="true"></div>
+                                </div>
+                            </div>
+                            <div id="slide_info">
+                                <div id="slide_nav">
+                                    <div id="slider"></div>
+                                </div>
+                            </div>
+                            <div>
+                                <div class="button-menu horz-center add-overlay">
+                                    <span>
+                                        <button class="button btn-add" type="button"></button>
+                                        Add Overlay
+                                    </span>
+                                </div>
+                            </div>
+                            <div id="overlays">
+                            </div>
+                            <div id="extraAccessibilityInfo"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="upload">
+                    <div class="drag-area">
+                        <div class="upload-instructions">
+                            <div id="upload-image-icon"></div>
+                            <span class="dragText">Click to Upload Images</span>
+                            <div class="details">or drag and drop files from your desktop.
+                                <p/>
+                            * All images should have the same aspect ratio.</div>
+                        </div>
+                    </div>
+                    <input id="image-uploader" type="file" multiple="multiple" accept="image/jpg, image/jpeg, image/png, image/svg"/>
+                    <input id="image-replacer" type="file" accept="image/jpg, image/jpeg, image/png, image/svg"/>
+                </div>
+            </div>
+        </div>
+
+        <div class="overlay-mask"></div>
+
+        <div class="dialog-box confirmation">
+            <div class="dialogText">
+                <h4>Are you sure?</h4>
+                <p>You cannot undo this action.</p>
+            </div>
+            <div class="dialogButtons">
+                <div class="button-div confirmDelete clickable"><div class="button-text">Remove</div></div><br/>
+                <span class="cancelDelete clickable">Cancel</span>
+            </div>
+            <div class="show-again">
+                <input type="checkbox" id="showDelConf" class="custom-checkbox"/>
+                <div class="fake-checkbox"></div>
+                Don't show this message again.
+            </div>
+        </div>
+
+    </body>
+</html>
