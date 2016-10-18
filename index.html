@@ -30,7 +30,9 @@
     }
 
     iframe {
-      border-width: 2px;
+      /* we cannot use the border in practice because it mucks up the box sizing */
+      /* if we really want widgets with themable borders then we should look at a different solution than on the iframe (perhaps a wrapping element) */
+      border-width: 2px 0;
       border-color: red;
       border-style: solid;
       background-color: transparent;
