@@ -856,7 +856,7 @@ $(document).ready(function() {
 		imageNaturalHeights = [];
 		imageSizing();
 		slideSizing();
-		setSize();
+		// setSize();
 	}
 
 	$(window).load(function() {
@@ -1049,7 +1049,7 @@ $(document).ready(function() {
 		//set heights of image container
 		imageSizing();
 
-		setSize();
+		// setSize();
 
 
 	}
