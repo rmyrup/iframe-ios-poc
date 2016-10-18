@@ -45,9 +45,10 @@
 
     @media (max-width: 767px) {
       iframe.widget {
+        /* the thought is to add some visual gap left and right of the widget to prevent scrolling traps */
+        /* this is real mucky and would need some testing */
         box-sizing: border-box;
-        margin: 10px;
-        /* in order for this to work correctly we'd need a fixed width on the iframe */
+        padding: 0 10px;
       }
     }
 
