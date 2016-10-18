@@ -27,9 +27,8 @@
     }
 
     #widgetWrapper {
+      /* this is important to avoid scrollbar issues when calculating sizing cross browser and cross device */
       overflow: hidden;
-      /*overflow-x: auto;*/
-      /*overflow-y: hidden;*/
     }
 
     #widgetContent {
@@ -145,10 +144,7 @@
       theBody = document.getElementsByClassName('theBody')[0],
       bodyDims = theBody.getBoundingClientRect();
 
-  // this constrains the body so that in safari ios it does not expand the iframe
-  widgetWrapper.style.maxWidth = bodyDims.width + "px";
-
-  console.log('calculating widget wrapper max-width: ' + widgetWrapper.style.maxWidth);
+  setMaxWidth();
 
   function getDocHeight() {
     var D = document;
@@ -172,6 +168,16 @@
       timeout = setTimeout(later, wait);
       if (callNow) func.apply(context, args);
     };
+  }
+
+  function setMaxWidth() {
+    // reset the body dimensions
+    bodyDims = theBody.getBoundingClientRect();
+
+    // this constrains the body so that in safari ios it does not expand the iframe
+    widgetWrapper.style.maxWidth = bodyDims.width + "px";
+
+    console.log('calculating widget wrapper max-width: ' + widgetWrapper.style.maxWidth);
   }
 
   function askIframeResize() {
@@ -200,6 +206,8 @@
 
   function scaleWidgetContent() {
     console.info('entering scaleWidgetContent');
+
+    setMaxWidth();
 
     var scaleVal = bodyDims.width / widgetWrapper.scrollWidth,
         scaleCur = widgetContent.style.transform;
