@@ -40,11 +40,15 @@
 
     iframe.widget {
       transition: height 1s ease;
-    }
-
-    iframe.widget {
       box-sizing: content-box;
     }
+
+    @media (max-width: 767px) {
+      iframe.widget {
+        margin: 10px;
+      }
+    }
+
   </style>
 
 </head>
