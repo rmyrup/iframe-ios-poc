@@ -53,6 +53,7 @@
 <section>
   <h1>iframe-ios-poc</h1>
   <button onclick="window.location.href='index.html?z=' + Math.random().toString().substr(2);">REFRESH</button>
+  <button onclick="setToWidget();">WIDGET</button>
   <span id="theHeight"></span>
 </section>
 
@@ -74,6 +75,12 @@
 <script type="text/javascript">
   var theIframe = document.getElementById('theIframe');
 
+  function setToWidget() {
+    var pathToWidget = "/iframe-ios-poc/sn_d047-0c20570091384bd58ca5767205e2dad0-1476815327/OPS/s9ml/chapter15/example_instances.xhtml",
+        theRandom = Math.random().toString().substr(2);
+    theIframe.src = pathToWidget + '?z=' + theRandom;
+  }
+
   window.addEventListener('message', function (evt) {
     var theData = evt.data;
 
@@ -83,7 +90,6 @@
         theHeight.textContent = theData.payload.height;
         theIframe.style.height = theData.payload.height;
       }
-//      if(theData.payload.width) theIframe.style.width = theData.payload.width;
     }
   }, false);
 
