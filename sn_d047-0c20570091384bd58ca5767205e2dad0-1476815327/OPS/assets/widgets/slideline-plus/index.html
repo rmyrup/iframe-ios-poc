@@ -217,6 +217,7 @@
     // never scale up, only down
     if(scaleVal > 1) {
       console.log('capping at scale of 1');
+      return false;
       scaleVal = 1;
     }
 
