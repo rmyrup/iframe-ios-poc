@@ -85,6 +85,12 @@
     var theData = evt.data;
 
     if (theData.type == 'size') {
+      if (!theData.payload) {
+        console.error('the size does not contain a payload');
+        console.dir(theData);
+        return false;
+      }
+      
       if (theData.payload.height) {
         var theHeight = document.getElementById('theHeight');
         theHeight.textContent = theData.payload.height;
