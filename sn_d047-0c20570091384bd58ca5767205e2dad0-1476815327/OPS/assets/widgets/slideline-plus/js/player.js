@@ -1049,6 +1049,8 @@ $(document).ready(function() {
 		//set heights of image container
 		imageSizing();
 
+		$('body').addClass('loaded');
+		debouncedResize();
 		// setSize();
 
 
