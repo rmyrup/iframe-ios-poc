@@ -94,10 +94,10 @@
       if(theData.data && theData.data.height) reportedHeight = theData.data.height;
 
       if (reportedHeight) {
-        console.info('setting height: ' + reportedHeight);
-
         // check that the unit is included
         if(reportedHeight.toString().substr(-2) != 'px') reportedHeight += "px";
+
+        console.info('setting height: ' + reportedHeight);
 
         var theHeight = document.getElementById('theHeight');
         theHeight.textContent = reportedHeight;
