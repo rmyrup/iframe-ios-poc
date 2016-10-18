@@ -82,7 +82,8 @@
   }
 
   window.addEventListener('message', function (evt) {
-    var theData = evt.data;
+    var theData = evt.data,
+        reportedHeight = null;
 
     if (theData.type == 'size') {
       if (!theData.payload) {
@@ -90,11 +91,14 @@
         console.dir(theData);
         return false;
       }
-      
-      if (theData.payload.height) {
+
+      if(theData.payload && theData.payload.height) reportedHeight = theData.payload.height;
+      if(theData.data && theData.data.height) reportedHeight = theData.data.height;
+
+      if (reportedHeight) {
         var theHeight = document.getElementById('theHeight');
-        theHeight.textContent = theData.payload.height;
-        theIframe.style.height = theData.payload.height;
+        theHeight.textContent = reportedHeight;
+        theIframe.style.height = reportedHeight;
       }
     }
   }, false);
