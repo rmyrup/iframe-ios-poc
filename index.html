@@ -97,7 +97,7 @@
         console.info('setting height: ' + reportedHeight);
 
         // check that the unit is included
-        if(reportedHeight.substr(-2) != 'px') reportedHeight += "px";
+        if(reportedHeight.toString().substr(-2) != 'px') reportedHeight += "px";
 
         var theHeight = document.getElementById('theHeight');
         theHeight.textContent = reportedHeight;
