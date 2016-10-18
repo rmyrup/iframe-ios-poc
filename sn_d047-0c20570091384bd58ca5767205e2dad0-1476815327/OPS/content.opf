@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<package xmlns="http://www.idpf.org/2007/opf" xmlns:dc="http://purl.org/dc/elements/1.1/" version="3.0" xml:lang="en" unique-identifier="data-uuid-3e5921b4a045b0d5e0d47340fb98c2adc200bedf">
+  <metadata>
+    <dc:identifier id="data-uuid-3e5921b4a045b0d5e0d47340fb98c2adc200bedf">3e5921b4a045b0d5e0d47340fb98c2adc200bedf</dc:identifier>
+    <dc:title>Slideline Plus</dc:title>
+    <dc:language>en-US</dc:language>
+    <dc:creator>MHE</dc:creator>
+    <meta property="dcterms:modified">2016-10-18T18:26:10Z</meta>
+    <meta content="cover-image" name="cover"></meta>
+  </metadata>
+  <manifest>
+    <item href="toc.ncx" id="item-0" media-type="application/x-dtbncx+xml"></item>
+    <item href="toc.xhtml" id="item-1" media-type="application/xhtml+xml" properties="nav"></item>
+    <item href="s9ml/chapter15/unconfigured_instances.xhtml" id="item-2" media-type="application/xhtml+xml" properties="scripted"></item>
+    <item href="s9ml/chapter15/example_instances.xhtml" id="item-3" media-type="application/xhtml+xml" properties="scripted"></item>
+    <item href="s9ml/glossary.xhtml" id="item-4" media-type="application/xhtml+xml" properties="glossary"></item>
+    <item href="s9ml/remarks.xhtml" id="item-5" media-type="application/xhtml+xml"></item>
+    <item href="assets/js/habitat_platform.js" id="item-6" media-type="application/javascript"></item>
+    <item href="assets/widgets/shared/imagesloaded/imagesloaded.pkgd.min.js" id="item-7" media-type="application/javascript"></item>
+    <item href="assets/widgets/shared/mhe/l10n/es-es.json" id="item-8" media-type="application/json"></item>
+    <item href="assets/widgets/shared/mhe/l10n/en-us.json" id="item-9" media-type="application/json"></item>
+    <item href="assets/widgets/shared/mhe/l10n/en-gb.json" id="item-10" media-type="application/json"></item>
+    <item href="assets/widgets/shared/mhe/l10n/locales.json" id="item-11" media-type="application/json"></item>
+    <item href="assets/widgets/shared/inklingwidget.js" id="item-12" media-type="application/javascript"></item>
+    <item href="assets/widgets/slideline-plus/js/shared.js" id="item-13" media-type="application/javascript"></item>
+    <item href="assets/widgets/shared/mhe/mhe-widget.js" id="item-14" media-type="application/javascript"></item>
+    <item href="assets/modules/mhe.acme-common/v0/css/mhe-base-widget.min.css" id="item-15" media-type="text/css"></item>
+    <item href="assets/modules/mhe.acme-common/v0/fonts/mhe-dpg-global-icon-font/mhe_dpg_global_iconfont.svg" id="item-16" media-type="image/svg+xml"></item>
+    <item href="assets/modules/mhe.acme-common/v0/fonts/museo-slab/museoslab-500.woff" id="item-17" media-type="application/font-woff"></item>
+    <item href="assets/widgets/slideline-plus/js/player.js" id="item-18" media-type="application/javascript"></item>
+    <item href="assets/widgets/slideline-plus/js/caliper.js" id="item-19" media-type="application/javascript"></item>
+    <item href="assets/widgets/shared/mhe/l10n/es-mx.json" id="item-20" media-type="application/json"></item>
+    <item href="assets/modules/mhe.acme-common/v0/fonts/proxima-nova/proxima-nova-regular.eot" id="item-21" media-type="application/vnd.ms-fontobject"></item>
+    <item href="assets/modules/mhe.acme-common/v0/fonts/museo-slab/museoslab-500.eot" id="item-22" media-type="application/vnd.ms-fontobject"></item>
+    <item href="assets/modules/mhe.acme-common/v0/fonts/museo-slab/museoslab-500.svg" id="item-23" media-type="image/svg+xml"></item>
+    <item href="assets/modules/mhe.acme-common/v0/fonts/museo-slab/museoslab-500.ttf" id="item-24" media-type="application/font-sfnt"></item>
+    <item href="assets/widgets/slideline-plus/js/handlebars.js" id="item-25" media-type="application/javascript"></item>
+    <item href="assets/modules/mhe.acme-common/v0/fonts/proxima-nova/proxima-nova-regular.svg" id="item-26" media-type="image/svg+xml"></item>
+    <item href="assets/modules/mhe.acme-common/v0/fonts/proxima-nova/proxima-nova-regular.ttf" id="item-27" media-type="application/font-sfnt"></item>
+    <item href="assets/modules/mhe.acme-common/v0/fonts/proxima-nova/proxima-nova-light.woff" id="item-28" media-type="application/font-woff"></item>
+    <item href="assets/modules/mhe.acme-common/v0/fonts/proxima-nova/proxima-nova-light.eot" id="item-29" media-type="application/vnd.ms-fontobject"></item>
+    <item href="assets/modules/mhe.acme-common/v0/fonts/proxima-nova/proxima-nova-light.svg" id="item-30" media-type="image/svg+xml"></item>
+    <item href="assets/modules/mhe.acme-common/v0/fonts/proxima-nova/proxima-nova-light.ttf" id="item-31" media-type="application/font-sfnt"></item>
+    <item href="assets/modules/mhe.acme-common/v0/fonts/proxima-nova/proxima-nova-extrabld.woff" id="item-32" media-type="application/font-woff"></item>
+    <item href="assets/modules/mhe.acme-common/v0/fonts/proxima-nova/proxima-nova-extrabld.eot" id="item-33" media-type="application/vnd.ms-fontobject"></item>
+    <item href="assets/modules/mhe.acme-common/v0/fonts/proxima-nova/proxima-nova-extrabld.svg" id="item-34" media-type="image/svg+xml"></item>
+    <item href="assets/modules/mhe.acme-common/v0/fonts/proxima-nova/proxima-nova-extrabld.ttf" id="item-35" media-type="application/font-sfnt"></item>
+    <item href="assets/modules/mhe.acme-common/v0/css/mhe-base-page.min.css" id="item-36" media-type="text/css"></item>
+    <item href="assets/widgets/slideline-plus/js/jquery.ui.touch-punch.min.js" id="item-37" media-type="application/javascript"></item>
+    <item href="assets/widgets/slideline-plus/img/slideline_placeholder_images_4.jpg" id="item-38" media-type="image/jpeg"></item>
+    <item href="assets/widgets/slideline-plus/index.html" id="item-39" media-type="text/html"></item>
+    <item href="assets/modules/mhe.acme-common/v0/fonts/mheelemsans/mheelemsans-bolditalic.woff" id="item-40" media-type="application/font-woff"></item>
+    <item href="img/chapter15/fad75f65b90148b386cade0b9d54ae02.jpg" id="item-41" media-type="image/jpeg"></item>
+    <item href="img/chapter15/eb091ad2f9fe4b0baed2c94fceec432f.jpg" id="item-42" media-type="image/jpeg"></item>
+    <item href="img/chapter15/0c039667788f4d0b9573c10d7ba00bee.jpg" id="item-43" media-type="image/jpeg"></item>
+    <item href="assets/modules/mhe.acme-common/v0/fonts/proxima-nova/proxima-nova-regular.woff" id="item-44" media-type="application/font-woff"></item>
+    <item href="assets/modules/mhe.acme-common/v0/fonts/proxima-nova/proxima-nova-regular-it.woff" id="item-45" media-type="application/font-woff"></item>
+    <item href="assets/modules/mhe.acme-common/v0/fonts/proxima-nova/proxima-nova-bold.woff" id="item-46" media-type="application/font-woff"></item>
+    <item href="assets/modules/mhe.acme-common/v0/fonts/proxima-nova/proxima-nova-bold-it.woff" id="item-47" media-type="application/font-woff"></item>
+    <item href="assets/modules/mhe.acme-common/v0/fonts/mhe-dpg-global-icon-font/mhe_dpg_global_iconfont.eot" id="item-48" media-type="application/vnd.ms-fontobject"></item>
+    <item href="assets/modules/mhe.acme-common/v0/fonts/mhe-dpg-global-icon-font/mhe_dpg_global_iconfont.ttf" id="item-49" media-type="application/font-sfnt"></item>
+    <item href="assets/modules/mhe.acme-common/v0/fonts/mhe-dpg-global-icon-font/mhe_dpg_global_iconfont.woff" id="item-50" media-type="application/font-woff"></item>
+    <item href="assets/modules/mhe.acme-common/v0/fonts/mheelemsans/mheelemsans-regular.woff" id="item-51" media-type="application/font-woff"></item>
+    <item href="assets/modules/mhe.acme-common/v0/fonts/mheelemsans/mheelemsans-italic.woff" id="item-52" media-type="application/font-woff"></item>
+    <item href="assets/modules/mhe.acme-common/v0/fonts/mheelemsans/mheelemsans-bold.woff" id="item-53" media-type="application/font-woff"></item>
+    <item href="assets/modules/mhe.acme-common/v0/fonts/mheelemsans/mheelemsans-regular.eot" id="item-54" media-type="application/vnd.ms-fontobject"></item>
+    <item href="assets/widgets/slideline-plus/img/slideline_placeholder_images_6.jpg" id="item-55" media-type="image/jpeg"></item>
+    <item href="assets/modules/mhe.acme-common/v0/fonts/mheelemsans/mheelemsans-regular.ttf" id="item-56" media-type="application/font-sfnt"></item>
+    <item href="assets/widgets/slideline-plus/img/slider_background.svg" id="item-57" media-type="image/svg+xml"></item>
+    <item href="assets/widgets/slideline-plus/img/slider_background-vertical.gif" id="item-58" media-type="image/gif"></item>
+    <item href="assets/widgets/slideline-plus/css/player.css" id="item-59" media-type="text/css"></item>
+    <item href="assets/widgets/slideline-plus/img/blank.svg" id="item-60" media-type="image/svg+xml"></item>
+    <item href="assets/widgets/slideline-plus/img/placeholder-image.svg" id="item-61" media-type="image/svg+xml"></item>
+    <item href="assets/widgets/slideline-plus/img/placeholder-image1.svg" id="item-62" media-type="image/svg+xml"></item>
+    <item href="assets/widgets/slideline-plus/img/placeholder-image2.svg" id="item-63" media-type="image/svg+xml"></item>
+    <item href="assets/widgets/slideline-plus/img/placeholder-image3.svg" id="item-64" media-type="image/svg+xml"></item>
+    <item href="assets/widgets/slideline-plus/img/slideline_placeholder_images_1.jpg" id="item-65" media-type="image/jpeg"></item>
+    <item href="assets/widgets/slideline-plus/img/slideline_placeholder_images_2.jpg" id="item-66" media-type="image/jpeg"></item>
+    <item href="assets/widgets/slideline-plus/img/slideline_placeholder_images_3.jpg" id="item-67" media-type="image/jpeg"></item>
+    <item href="img/.templates/chapter_thumbnail.png" id="cover-image" media-type="image/png" properties="cover-image"></item>
+    <item href="assets/widgets/slideline-plus/img/slideline_placeholder_images_5.jpg" id="item-69" media-type="image/jpeg"></item>
+    <item href="assets/widget_data/config/e2d704155bfb48a69f1890019f23752a.json" id="item-70" media-type="application/json"></item>
+  </manifest>
+  <spine toc="item-0">
+    <itemref idref="item-0" linear="no"></itemref>
+    <itemref idref="item-1" linear="no"></itemref>
+    <itemref idref="item-2" linear="yes"></itemref>
+    <itemref idref="item-3" linear="yes"></itemref>
+    <itemref idref="item-4" linear="no"></itemref>
+    <itemref idref="item-5" linear="no"></itemref>
+  </spine>
+</package>

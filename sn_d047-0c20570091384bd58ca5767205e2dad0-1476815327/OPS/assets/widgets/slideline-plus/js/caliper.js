@@ -1,0 +1,1 @@
+function sendCaliperNavigationEvent(){mhe.caliper({type:"NavigationEvent",action:"NavigatedTo"})}function sendCaliperEventsOnLastAttempt(a,b){mhe.caliper({type:"AssessmentItemEvent",answer:a,action:"Completed"}),mhe.caliper({type:"OutcomeEvent",action:"Graded",hint:b}),mhe.caliper({type:"AssessmentEvent",action:"Submitted"})}function testCaliperPlacement(a){}var caliperDebug=!1;

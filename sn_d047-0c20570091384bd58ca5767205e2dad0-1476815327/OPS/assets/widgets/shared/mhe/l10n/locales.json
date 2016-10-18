@@ -1,0 +1,31 @@
+{
+    "aliases": {
+        "default": "en-US",
+        "en": "en-US",
+        "en-US": "en-US",
+        "en-GB": "en-GB",
+        "es": "es-ES",
+        "es-ES": "es-ES",
+        "es-MX": "es-MX",
+        "es-419": "es-MX"
+    },
+
+    "details": {
+        "en-US": {
+            "description": "English (United States)",
+            "cldr": "en-US-POSIX"
+        },
+        "en-GB": {
+            "description": "English (Great Britain)",
+            "cldr": "en-GB"
+        },
+        "es-ES": {
+            "description": "Spanish (Spain)",
+            "cldr": "es"
+        },
+        "es-MX": {
+            "description": "Spanish (Latin America)",
+            "cldr": "es-419"
+        }
+    }
+}

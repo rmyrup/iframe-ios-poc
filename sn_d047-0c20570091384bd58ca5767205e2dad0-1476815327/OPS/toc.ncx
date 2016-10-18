@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ncx xmlns="http://www.daisy.org/z3986/2005/ncx/" version="2005-1" xml:lang="en-US">
+  <head>
+    <meta content="0c20570091384bd58ca5767205e2dad0" name="dtb:uid"></meta>
+  </head>
+  <docTitle>
+    <text>Table of Contents</text>
+  </docTitle>
+  <navMap>
+    <navPoint id="data-uuid-0c20570091384bd58ca5767205e2dad0">
+      <navLabel>
+        <text>Slideline Plus</text>
+      </navLabel>
+      <content src="s9ml/chapter15/unconfigured_instances.xhtml"></content>
+      <navPoint id="data-uuid-7bdaac4644c14db6ba6f9df64efe1388">
+        <navLabel>
+          <text>Unconfigured Instances</text>
+        </navLabel>
+        <content src="s9ml/chapter15/unconfigured_instances.xhtml#data-uuid-7bdaac4644c14db6ba6f9df64efe1388"></content>
+      </navPoint>
+      <navPoint id="data-uuid-a934e9c65e1748a8bb97074454f95b26">
+        <navLabel>
+          <text>Example Instances</text>
+        </navLabel>
+        <content src="s9ml/chapter15/example_instances.xhtml#data-uuid-a934e9c65e1748a8bb97074454f95b26"></content>
+        <navPoint id="data-uuid-421565c16c3f41529077a8a460ea4d0f">
+          <navLabel>
+            <text>Widget Instance</text>
+          </navLabel>
+          <content src="s9ml/chapter15/example_instances.xhtml#data-uuid-421565c16c3f41529077a8a460ea4d0f"></content>
+        </navPoint>
+      </navPoint>
+    </navPoint>
+  </navMap>
+</ncx>
