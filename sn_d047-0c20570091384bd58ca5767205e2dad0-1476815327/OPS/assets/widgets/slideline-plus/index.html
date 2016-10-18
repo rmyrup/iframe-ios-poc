@@ -19,6 +19,21 @@
         <!-- Default theme; may be replaced at runtime -->
         <link rel="stylesheet" data-course-css="courseCssTheme" href="" />
 
+        <!-- Local CSS for testing our iOS iframe fix -->
+        <style type="text/css">
+            #widgetWrapper {
+                /*overflow: hidden;*/
+                overflow-x: auto;
+                overflow-y: hidden;
+            }
+
+            #widgetContent {
+                float: left;
+                transform-origin: 0% 0%;
+            }
+        </style>
+
+
         <!-- Required javascript libraries -->
         <!-- jQuery via CDN -->
         <script src="//ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js" type="text/javascript"></script>
@@ -92,20 +107,133 @@
             //]]>
         </script>
     </head>
+
     <body class="widget widget-slideline-plus widget-mode-player mhe-theme-namespace clearfix">
-        <div class="theLoader" >
-            <div id="theLoader--wrapper">
+
+    <div class="theLoader">
+        <div id="theLoader--wrapper">
             <div id="theLoader--text">Loading</div>
-                <div id="theLoader--bar">
+            <div id="theLoader--bar">
                 <div id="theLoader--bar-inner" class="theLoader--bar-inner"></div>
-                </div>
             </div>
         </div>
-        <div id="widget_container" style="width: 100%; height: auto;" class="clearfix" aria-atomic="false" aria-live="polite" role="main">
-        </div>
+    </div>
 
+    <div id="widgetWrapper">
+        <div id="widgetContent">
+
+            <div id="widget_container" style="width: 100%; height: auto;" class="clearfix" aria-atomic="false" aria-live="polite" role="main">
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Local JS for testing iOS iframe fix -->
     <script type="text/javascript">
-        console.log('ready for testing');
+        var lastReportedHeight = null,
+            widgetWrapper = document.getElementById('widgetWrapper'),
+            widgetContent = document.getElementById('widgetContent'),
+            theBody = document.getElementsByClassName('theBody')[0],
+            bodyDims = theBody.getBoundingClientRect();
+
+        // this constrains the body so that in safari ios it does not expand the iframe
+        widgetWrapper.style.maxWidth = bodyDims.width + "px";
+
+        console.log('calculating widget wrapper max-width: ' + widgetWrapper.style.maxWidth);
+
+        function getDocHeight() {
+            var D = document;
+            return Math.max(
+                Math.max(D.body.scrollHeight, D.documentElement.scrollHeight),
+                Math.max(D.body.offsetHeight, D.documentElement.offsetHeight),
+                Math.max(D.body.clientHeight, D.documentElement.clientHeight)
+            );
+        }
+
+        function debounce(func, wait, immediate) {
+            var timeout;
+            return function () {
+                var context = this, args = arguments;
+                var later = function () {
+                    timeout = null;
+                    if (!immediate) func.apply(context, args);
+                };
+                var callNow = immediate && !timeout;
+                clearTimeout(timeout);
+                timeout = setTimeout(later, wait);
+                if (callNow) func.apply(context, args);
+            };
+        }
+
+        function askIframeResize() {
+            var widgetContentDims = widgetContent.getBoundingClientRect();
+
+            // only report a height if it has changed
+            if (lastReportedHeight == widgetContentDims.height) return false;
+
+            // to address iframe issues in ios safari we need to set the height on the body as well
+            widgetWrapper.style.height = widgetContentDims.height + "px";
+
+            console.log('setting new widget wrapper height: ' + widgetWrapper.style.height);
+
+            // set this as the last reported height
+            lastReportedHeight = widgetContentDims.height;
+
+            console.log('reporting widget height: ' + lastReportedHeight);
+
+            // report the height to the iframe
+            window.parent.postMessage({
+                'type': 'size',
+                'method': 'set',
+                'payload': {"width": "100%", "height": (widgetContentDims.height / 2) + "px"}
+            }, '*');
+        }
+
+        function scaleWidgetContent() {
+            var scaleVal = bodyDims.width / widgetWrapper.scrollWidth,
+                scaleCur = widgetContent.style.transform;
+
+            // IMPORTANT: check if there IS a scale currently
+            if (scaleCur) {
+                // figure out the value of the scale factor
+                var scaleCurFactor = scaleCur.replace(/scale\(([0-9].?[0-9]*)\)/, "$1");
+
+                // recalculate the new scale, taking into account an existing scale
+                scaleVal = bodyDims.width / (widgetWrapper.scrollWidth / scaleCurFactor);
+            }
+
+            // string out the new scale
+            var scaleNew = 'scale(' + scaleVal + ')';
+
+            // stop if we aren't changing scale
+            if (scaleNew == scaleCur) {
+                // resize iframe to fit us
+                askIframeResize();
+
+                return false;
+            }
+
+            // set the transform scale
+            widgetContent.style.transform = scaleNew;
+
+            console.log('calculated new scale: ' + scaleNew);
+
+            // resize iframe to fit us
+            askIframeResize();
+        }
+
+        var debouncedResize = debounce(function () {
+            scaleWidgetContent();
+        }, 250);
+
+        window.addEventListener('resize', debouncedResize);
+
+        // a small time offset for visual appeal
+        setTimeout(function () {
+            // an initial resize
+            scaleWidgetContent();
+        }, 350);
     </script>
+    
     </body>
 </html>
