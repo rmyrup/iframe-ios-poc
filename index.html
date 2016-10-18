@@ -107,8 +107,10 @@
   }, false);
 
   setTimeout(function () {
-    var theRandom = Math.random().toString().substr(2);
-    theIframe.src = 'iframe.html?z=' + theRandom;
+    setToWidget();
+
+//    var theRandom = Math.random().toString().substr(2);
+//    theIframe.src = 'iframe.html?z=' + theRandom;
   }, 250);
 </script>
 
