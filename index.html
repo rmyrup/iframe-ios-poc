@@ -96,6 +96,10 @@
       if(theData.data && theData.data.height) reportedHeight = theData.data.height;
 
       if (reportedHeight) {
+        console.info('setting height: ' + reportedHeight);
+
+        if(reportedHeight.substr(-2) != 'px') reportedHeight += "px";
+
         var theHeight = document.getElementById('theHeight');
         theHeight.textContent = reportedHeight;
         theIframe.style.height = reportedHeight;
