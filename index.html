@@ -76,9 +76,9 @@
   var theIframe = document.getElementById('theIframe');
 
   function setToWidget() {
-    var pathToWidget = "/iframe-ios-poc/sn_d047-0c20570091384bd58ca5767205e2dad0-1476815327/OPS/s9ml/chapter15/example_instances.xhtml",
+    var pathToWidget = "/iframe-ios-poc/sn_d047-0c20570091384bd58ca5767205e2dad0-1476815327/OPS/assets/widgets/slideline-plus/index.html?configFile=..%2F..%2Fwidget_data%2Fconfig%2Fe2d704155bfb48a69f1890019f23752a.json",
         theRandom = Math.random().toString().substr(2);
-    theIframe.src = pathToWidget + '?z=' + theRandom;
+    theIframe.src = pathToWidget + '&z=' + theRandom;
   }
 
   window.addEventListener('message', function (evt) {
