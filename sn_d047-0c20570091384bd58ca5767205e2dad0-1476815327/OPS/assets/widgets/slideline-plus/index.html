@@ -36,6 +36,10 @@
       float: left;
       transform-origin: 0% 0%;
     }
+
+    #widget_container {
+      width: 100%;
+    }
   </style>
 
 
@@ -77,8 +81,6 @@
             }
         });
         //]]>
-
-
   </script>
 
   <script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
@@ -130,8 +132,7 @@
 <div id="widgetWrapper">
   <div id="widgetContent">
 
-    <div id="widget_container" style="width: 100%; height: auto;" class="clearfix" aria-atomic="false" aria-live="polite" role="main">
-    </div>
+    <div id="widget_container" class="clearfix" aria-atomic="false" aria-live="polite" role="main"></div>
 
   </div>
 </div>
@@ -193,7 +194,7 @@
     window.parent.postMessage({
       'type': 'size',
       'method': 'set',
-      'payload': {"width": "100%", "height": (widgetContentDims.height / 2) + "px"}
+      'payload': {"width": "100%", "height": widgetContentDims.height + "px"}
     }, '*');
   }
 
