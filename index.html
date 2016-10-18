@@ -86,18 +86,17 @@
         reportedHeight = null;
 
     if (theData.type == 'size') {
-      if (!theData.payload) {
-        console.error('the size does not contain a payload');
-        console.dir(theData);
-        return false;
-      }
 
+      // if coming from our poc iframe
       if(theData.payload && theData.payload.height) reportedHeight = theData.payload.height;
+
+      // if coming from a widget
       if(theData.data && theData.data.height) reportedHeight = theData.data.height;
 
       if (reportedHeight) {
         console.info('setting height: ' + reportedHeight);
 
+        // check that the unit is included
         if(reportedHeight.substr(-2) != 'px') reportedHeight += "px";
 
         var theHeight = document.getElementById('theHeight');
